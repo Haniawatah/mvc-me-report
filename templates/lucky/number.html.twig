@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lucky Number | MVC Course{% endblock %}
+
+{% block body %}
+    <div class="lucky-container">
+        <h1 class="lucky-title">Your Lucky Number</h1>
+        
+        <div class="lucky-number">
+            <span class="number">{{ number }}</span>
+        </div>
+        
+        <div class="lucky-images">
+            <img src="img/lucky-1.jpg" alt="Lucky Image 1" class="lucky-image {{ number % 3 == 0 ? 'active' : '' }}">
+            <img src="img/lucky-2.jpg" alt="Lucky Image 2" class="lucky-image {{ number % 3 == 1 ? 'active' : '' }}">
+            <img src="img/lucky-3.jpg" alt="Lucky Image 3" class="lucky-image {{ number % 3 == 2 ? 'active' : '' }}">
+        </div>
+        
+        <div class="fortune">
+            {% if number < 30 %}
+                <p>Today is your lucky day! Good fortune awaits.</p>
+            {% elseif number < 70 %}
+                <p>Average luck today. Be cautious but optimistic.</p>
+            {% else %}
+                <p>Luck is not on your side today. Stay home if possible!</p>
+            {% endif %}
+        </div>
+        
+        <a href="{{ path('lucky') }}" class="btn btn-primary">Get a new number!</a>
+    </div>
+{% endblock %}

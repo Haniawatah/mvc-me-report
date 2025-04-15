@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}API | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>JSON API Documentation</h1>
+    
+    <p class="lead">
+        This page documents the available JSON API endpoints for this application.
+    </p>
+    
+    <div class="api-endpoints">
+        <div class="endpoint">
+            <h2>Quote of the Day</h2>
+            <p>Returns a random quote along with the current date and timestamp.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <a href="{{ path('api_quote') }}">/api/quote</a></p>
+                <p><strong>Method:</strong> GET</p>
+                <p><strong>Response Format:</strong> JSON</p>
+                
+                <h3>Example Response:</h3>
+                <pre><code>
+{
+    "quote": "Life is what happens when you're busy making other plans.",
+    "date": "2025-04-15",
+}
+                </code></pre>
+            </div>
+        </div>
+    </div>
+{% endblock %}

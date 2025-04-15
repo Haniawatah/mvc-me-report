@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>About the MVC Course</h1>
+    
+    <div class="two-column">
+        <div class="column">
+            <h2>Course Description</h2>
+            <p>
+                The MVC (Model-View-Controller) course at BTH focuses on object-oriented programming,
+                software architecture, and design patterns in web development. The course emphasizes
+                how to structure web applications using the MVC pattern to create maintainable and
+                scalable applications.
+            </p>
+            
+            <p>
+                Throughout this course, we'll be learning about:
+            </p>
+            
+            <ul>
+                <li>Object-oriented PHP programming</li>
+                <li>The Symfony framework</li>
+                <li>MVC architectural pattern</li>
+                <li>Templates and views with Twig</li>
+                <li>Database integration</li>
+                <li>RESTful API development</li>
+            </ul>
+        </div>
+        
+        <div class="column">
+            <img src="img/mvc-diagram.jpg" alt="MVC Diagram" class="about-image">
+            
+            <h3>Links</h3>
+            <ul>
+                <li><a href="https://github.com/dbwebb-se/mvc" target="_blank">Course GitHub Repository</a></li>
+                <li><a href="https://github.com/Haniawatah/mvc-me-report" target="_blank">My GitHub Repository</a></li>
+                <li><a href="https://dbwebb.se/kurser/mvc-v2" target="_blank">Course Webpage</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
