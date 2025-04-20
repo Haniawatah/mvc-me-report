@@ -4,6 +4,48 @@
 
 Hello there! This repository documents my adventure through the MVC (Model-View-Controller) course at Blekinge Institute of Technology. I'm excited to share my work with you!
 
+## Getting Started
+
+Want to check out this project on your own machine? Follow these steps:
+
+### Clone the Repository
+
+```bash
+# Clone the repository
+git clone https://github.com/Haniawatah/mvc-me-report.git
+
+# Navigate to the project directory
+cd mvc-me-report
+```
+
+### Install Dependencies
+
+```bash
+# Install all dependencies using Composer
+composer install
+```
+
+### Configure Environment
+
+```bash
+# Create a local environment file if needed
+cp .env .env.local
+
+# Edit .env.local to match your environment
+```
+
+### Run the Application
+
+```bash
+# Start the Symfony development server
+symfony server:start
+
+# Or use PHP's built-in server
+php -S localhost:8000 -t public/
+```
+
+Then open your browser and navigate to `http://localhost:8000`
+
 ## What I've Built
 
 Throughout this course, I've created a Symfony-based project that includes:
