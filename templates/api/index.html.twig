@@ -11,6 +11,161 @@
     
     <div class="api-endpoints">
         <div class="endpoint">
+            <h2>Card Deck</h2>
+            <p>Returns the complete deck of cards sorted by suit and value.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <code>/api/deck</code></p>
+                <p><strong>Method:</strong> GET</p>
+                <p><strong>Response Format:</strong> JSON</p>
+                
+                <h3>Example Response:</h3>
+                <pre><code>
+{
+    "deck": [
+        {
+            "suit": "Hearts",
+            "value": "2",
+            "symbol": "♥",
+            "representation": "[2♥]"
+        },
+        // More cards...
+    ],
+    "count": 52
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h2>Shuffle Deck</h2>
+            <p>Shuffles the deck and returns the shuffled cards.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <code>/api/deck/shuffle</code></p>
+                <p><strong>Method:</strong> POST</p>
+                <p><strong>Response Format:</strong> JSON</p>
+                
+                <h3>Example Response:</h3>
+                <pre><code>
+{
+    "deck": [
+        {
+            "suit": "Clubs",
+            "value": "7",
+            "symbol": "♣",
+            "representation": "[7♣]"
+        },
+        // More cards in shuffled order...
+    ],
+    "count": 52
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h2>Draw Card</h2>
+            <p>Draws a card from the deck.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <code>/api/deck/draw</code></p>
+                <p><strong>Method:</strong> POST</p>
+                <p><strong>Response Format:</strong> JSON</p>
+                
+                <h3>Example Response:</h3>
+                <pre><code>
+{
+    "cards": [
+        {
+            "suit": "Diamonds",
+            "value": "Queen",
+            "symbol": "♦",
+            "representation": "[Q♦]"
+        }
+    ],
+    "count": 1,
+    "remaining": 51
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h2>Draw Multiple Cards</h2>
+            <p>Draws a specified number of cards from the deck.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <code>/api/deck/draw/{number}</code></p>
+                <p><strong>Method:</strong> POST</p>
+                <p><strong>Parameters:</strong></p>
+                <ul>
+                    <li><code>{number}</code> - Number of cards to draw</li>
+                </ul>
+                <p><strong>Response Format:</strong> JSON</p>
+                
+                <h3>Example Response:</h3>
+                <pre><code>
+{
+    "cards": [
+        {
+            "suit": "Hearts",
+            "value": "5",
+            "symbol": "♥",
+            "representation": "[5♥]"
+        },
+        // More cards...
+    ],
+    "count": 5,
+    "remaining": 47
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h2>Deal Cards</h2>
+            <p>Deals a specified number of cards to a specified number of players.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <code>/api/deck/deal/{players}/{cards}</code></p>
+                <p><strong>Method:</strong> POST</p>
+                <p><strong>Parameters:</strong></p>
+                <ul>
+                    <li><code>{players}</code> - Number of players</li>
+                    <li><code>{cards}</code> - Number of cards per player</li>
+                </ul>
+                <p><strong>Response Format:</strong> JSON</p>
+                
+                <h3>Example Response:</h3>
+                <pre><code>
+{
+    "players": 3,
+    "cards_per_player": 5,
+    "hands": {
+        "1": [
+            {
+                "suit": "Diamonds",
+                "value": "7",
+                "symbol": "♦",
+                "representation": "[7♦]"
+            },
+            // More cards...
+        ],
+        "2": [
+            // Player 2's cards
+        ],
+        "3": [
+            // Player 3's cards
+        ]
+    },
+    "remaining": 37
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint">
             <h2>Quote of the Day</h2>
             <p>Returns a random quote along with the current date and timestamp.</p>
             
@@ -23,7 +178,8 @@
                 <pre><code>
 {
     "quote": "Life is what happens when you're busy making other plans.",
-    "date": "2025-04-15",
+    "date": "2023-04-15",
+    "timestamp": 1681568000
 }
                 </code></pre>
             </div>

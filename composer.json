@@ -29,7 +29,11 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "files": [
+            "src/Card/card.php",
+            "src/Card/cardgraphic.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -56,6 +60,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "csfix": [
+            "php-cs-fixer --config=.php-cs-fixer.dist.php fix src"
         ]
     },
     "conflict": {

@@ -20,22 +20,29 @@
     <section id="kmom01" class="report-section">
         <h2>Kmom01</h2>
         <p>
-            During the first week of the MVC course, I got my Symfony project up and running and started to get a feel for how an MVC (Model-View-Controller) application is structured. It was a bit overwhelming at first, but also really exciting to finally see how all the pieces fit together.
+            Wow, first week with Symfony was quite the adventure! I spent way too many hours just trying to get everything set up correctly - those dependency issues nearly drove me crazy. But once it was working, it felt so satisfying to see my first page render.
         </p>
         <p>
-            I created my first routes, controllers, and templates, and managed to build a simple but working website. That hands-on experience helped a lot. I also got introduced to Twig, Symfony's templating engine, which was actually really nice to work with — it keeps things clean and readable when you want to mix HTML with dynamic content.
+            The MVC pattern made sense in theory from lectures, but seeing it in action with real code helped it click for me. I kept mixing up where certain code should go at first (is this controller logic or should it be in the model?), but I'm starting to get the hang of it.
         </p>
         <p>
-            What stood out to me was how Symfony encourages you to follow best practices from the beginning. The framework provides a clear structure and useful tools that make it easier to stay organized, even as your project grows. It's a bit strict in some ways, but I can see how that's helpful in the long run.
+            Twig templates were actually fun to work with! I've used other template engines before, but Twig's syntax feels cleaner. I like how it forces you to separate logic from presentation - no more temptation to dump a bunch of PHP in the middle of HTML like I used to do.
         </p>
         <p>
-            Overall, I've learned a lot this week — not just about Symfony, but also about the MVC pattern in general and how web apps are built in a more professional way. There's still a lot to explore, like working with databases and models, but I'm looking forward to diving deeper in the coming weeks.
+            The structured approach of Symfony is definitely different from what I'm used to, but I can see how it would be helpful in bigger projects. Looking forward to building something more complex next week!
         </p>
     </section>
     
     <section id="kmom02" class="report-section">
         <h2>Kmom02</h2>
-        <p>Coming soon...</p>
+        <p>This week, I built a card game app using Symfony, and it really helped me understand how to combine object-oriented programming with the MVC structure. I created my own classes: Card, CardHand, and DeckOfCards, and even added inheritance by making a CardGraphic class to represent suits like ♥ and ♠ in a more visual way. It was cool to see how composition worked too — each deck or hand holds multiple card objects. I set up several routes like /card/deck, /deck/shuffle, and /deck/draw/:number, and made sure the deck was stored in the session so it could persist between page loads. To help with testing, I added a debug page that shows what’s in the session and a route that clears it. Flash messages were a nice touch for giving feedback when actions like resetting the session happened.</p>
+
+        <p>For the card display, I kept it simple with UTF-8 symbols and some basic CSS styling. It looked clean and did the job without taking too much time to design. I also built a JSON API with routes like /api/deck and /api/deck/shuffle, which return card data in JSON format and update the session behind the scenes.</p>
+
+        <p>Working with APIs in Symfony was new to me, but it was exciting to learn how to handle requests and send back structured data. I even created an optional route to deal cards to players, which added a fun little challenge. Overall, I learned a lot about how to structure a web app with reusable classes and session logic. It was great practice for working with both the frontend and backend sides of Symfony.</p>
+
+        <p>TIL: how to apply OOP concepts in a Symfony project and how useful sessions are when managing game state like a card deck.</p>
+
     </section>
     
     <section id="kmom03" class="report-section">

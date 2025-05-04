@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Deal Cards | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Deal Cards</h1>
+    
+    <p>Dealing {{ cards }} cards to {{ players }} players.</p>
+    <p>There are {{ remaining }} cards remaining in the deck.</p>
+    
+    <div class="action-links">
+        <a href="{{ path('card_shuffle') }}" class="btn">Shuffle Deck</a>
+        <a href="{{ path('card_deal', {players: 2, cards: 5}) }}" class="btn">Deal 5 cards to 2 players</a>
+        <a href="{{ path('card_deal', {players: 4, cards: 3}) }}" class="btn">Deal 3 cards to 4 players</a>
+    </div>
+    
+    <h2>Player Hands</h2>
+    {% for index, hand in hands %}
+        <div class="player-hand">
+            <h3>Player {{ index + 1 }}</h3>
+            <div class="card-hand">
+                {{ hand.getAsHtml()|raw }}
+            </div>
+        </div>
+    {% endfor %}
+    
+    <div class="action-links">
+        <a href="{{ path('card_index') }}" class="btn">Back to Card Game</a>
+    </div>
+{% endblock %}

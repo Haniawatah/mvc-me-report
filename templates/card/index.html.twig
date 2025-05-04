@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Card Game | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Card Game</h1>
+    
+    <p>This page demonstrates a card game implementation using object-oriented PHP.</p>
+    
+    <h2>Class Structure</h2>
+    <p>The card game is implemented with the following classes:</p>
+    <ul>
+        <li><strong>Card</strong> - A base class representing a playing card with a suit and value</li>
+        <li><strong>CardGraphic</strong> - Extends Card and adds graphical representation with HTML and symbols</li>
+        <li><strong>CardHand</strong> - Represents a hand of cards (composition of CardGraphic objects)</li>
+        <li><strong>DeckOfCards</strong> - Represents a full deck of cards (composition of CardGraphic objects)</li>
+        <li><strong>DeckOfCardsWithJokers</strong> - Extends DeckOfCards to include joker cards</li>
+    </ul>
+    
+    <h2>Class Diagram</h2>
+    <p>Here's a simplified UML class diagram of the card game classes:</p>
+    
+    <div class="uml-diagram">
+        <img src="{{ uml_diagram }}" alt="UML Class Diagram" />
+    </div>
+    
+    <h2>Available Pages</h2>
+    <ul>
+        <li><a href="{{ path('session_index') }}">Session Contents</a> - View current session data</li>
+        <li><a href="{{ path('session_delete') }}">Delete Session</a> - Clear the session data</li>
+        <li><a href="{{ path('card_deck') }}">Show Deck</a> - Display all cards in the deck sorted</li>
+        <li><a href="{{ path('card_shuffle') }}">Shuffle Deck</a> - Shuffle the deck and display cards</li>
+        <li><a href="{{ path('card_draw') }}">Draw Card</a> - Draw one card from the deck</li>
+        <li><a href="{{ path('card_draw_multiple', {number: 5}) }}">Draw Multiple Cards</a> - Draw 5 cards from the deck</li>
+        <li><a href="{{ path('card_deal', {players: 3, cards: 5}) }}">Deal Cards</a> - Deal 5 cards to 3 players</li>
+    </ul>
+    
+    <h2>API Endpoints</h2>
+    <ul>
+        <li><code>GET /api/deck</code> - Get sorted deck as JSON</li>
+        <li><code>POST /api/deck/shuffle</code> - Shuffle the deck and return as JSON</li>
+        <li><code>POST /api/deck/draw</code> - Draw one card from the deck</li>
+        <li><code>POST /api/deck/draw/{number}</code> - Draw multiple cards from the deck</li>
+        <li><code>POST /api/deck/deal/{players}/{cards}</code> - Deal cards to multiple players</li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session Debug | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Session Debug</h1>
+    
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <div class="action-links">
+        <a href="{{ path('session_delete') }}" class="btn btn-danger">Clear Session</a>
+        <a href="{{ path('card_index') }}" class="btn">Back to Card Game</a>
+    </div>
+    
+    <h2>Session Contents</h2>
+    
+    {% if session_data is empty %}
+        <p>The session is currently empty.</p>
+    {% else %}
+        <table class="session-table">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value / Type</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in session_data %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>
+                            {% if value.type is defined %}
+                                Object: {{ value.type }}
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if key == 'deck' and value.cardCount is defined %}
+                                <ul>
+                                    <li>Cards remaining: {{ value.cardCount }}</li>
+                                </ul>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    
+    <div class="action-links">
+        <a href="{{ path('home') }}" class="btn">Home</a>
+    </div>
+{% endblock %}

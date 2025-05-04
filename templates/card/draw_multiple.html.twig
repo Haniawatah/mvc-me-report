@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Draw Multiple Cards | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Draw Multiple Cards</h1>
+    
+    <p>You attempted to draw {{ number }} cards from the deck.</p>
+    <p>You received {{ count }} cards. There are {{ remaining }} cards left.</p>
+    
+    <div class="action-links">
+        <a href="{{ path('card_draw') }}" class="btn">Draw 1 Card</a>
+        <a href="{{ path('card_draw_multiple', {number: 5}) }}" class="btn">Draw 5 Cards</a>
+        <a href="{{ path('card_shuffle') }}" class="btn">Shuffle Deck</a>
+    </div>
+    
+    <h2>Drawn Cards</h2>
+    <div class="card-hand">
+        {% for card in cards %}
+            {{ card.getAsHtml()|raw }}
+        {% endfor %}
+    </div>
+    
+    <div class="action-links">
+        <a href="{{ path('card_index') }}" class="btn">Back to Card Game</a>
+    </div>
+{% endblock %}

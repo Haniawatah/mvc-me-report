@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shuffled Deck | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Shuffled Card Deck</h1>
+    
+    <p>The deck has been shuffled and has {{ count }} cards.</p>
+    
+    <div class="action-links">
+        <a href="{{ path('card_deck') }}" class="btn">View Sorted Deck</a>
+        <a href="{{ path('card_shuffle') }}" class="btn">Shuffle Again</a>
+        <a href="{{ path('card_draw') }}" class="btn">Draw a Card</a>
+    </div>
+    
+    <h2>All Cards (Shuffled)</h2>
+    <div class="card-deck">
+        {% for card in cards %}
+            {{ card.getAsHtml()|raw }}
+        {% endfor %}
+    </div>
+    
+    <div class="action-links">
+        <a href="{{ path('card_index') }}" class="btn">Back to Card Game</a>
+    </div>
+{% endblock %}
