@@ -1,7 +1,10 @@
 framework:
     cache:
         # Unique name of your app: used to compute stable namespaces for cache keys.
-        prefix_seed: haniawatah/mvc-course
+        prefix_seed: app/project
+        
+        # The "app" cache stores session data
+        app: cache.adapter.filesystem
 
         # The "app" cache stores to the filesystem by default.
         # The data in this cache should persist between deploys.

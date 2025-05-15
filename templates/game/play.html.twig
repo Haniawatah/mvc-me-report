@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game 21 | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Game 21</h1>
+    
+    <div class="game-container">
+        <div class="game-area">
+            <div class="game-info">
+                {% if gameState == 'game_over' %}
+                    <div class="game-result">
+                        <h2>Game Over</h2>
+                        {% if game.result == 'player_wins' %}
+                            <p class="win-message">You win! 🎉</p>
+                        {% else %}
+                            <p class="lose-message">Dealer wins! 😢</p>
+                        {% endif %}
+                        
+                        <a href="{{ path('game_reset') }}" class="btn">Play Again</a>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="player-area">
+                <h2>Your Hand (Score: {{ playerScore }})</h2>
+                <div class="card-hand">
+                    {{ playerHand.getAsHtml()|raw }}
+                </div>
+                
+                {% if gameState == 'playing' %}
+                    <div class="action-buttons">
+                        <a href="{{ path('game_player_hit') }}" class="btn">Hit</a>
+                        <a href="{{ path('game_player_stand') }}" class="btn">Stand</a>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="dealer-area">
+                <h2>Dealer's Hand {% if gameState == 'game_over' %}(Score: {{ dealerScore }}){% endif %}</h2>
+                <div class="card-hand">
+                    {{ dealerHand.getAsHtml()|raw }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-sidebar">
+            <h3>Game Status</h3>
+            <ul>
+                <li>Game State: {{ gameState|replace({'_': ' '})|title }}</li>
+                <li>Your Score: {{ playerScore }}</li>
+                {% if gameState == 'game_over' %}
+                    <li>Dealer Score: {{ dealerScore }}</li>
+                {% endif %}
+            </ul>
+            
+            <div class="action-links">
+                <a href="{{ path('game_landing') }}" class="btn">Game Rules</a>
+                <a href="{{ path('game_reset') }}" class="btn">New Game</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

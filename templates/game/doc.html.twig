@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game 21 Documentation | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Game 21 Documentation</h1>
+    
+    <section class="doc-section">
+        <h2>Problem Analysis</h2>
+        <p>
+            Game 21 is a card game where the player competes against the dealer (bank). The goal is to get a hand
+            value as close to 21 as possible without going over. Face cards are worth 10, number cards are worth 
+            their face value, and Aces can be worth either 1 or 14, whichever is more beneficial.
+        </p>
+    </section>
+    
+    <section class="doc-section">
+        <h2>Flowchart</h2>
+        <p>Here's a flowchart representing the basic game flow:</p>
+        
+        <div class="flowchart">
+            <pre>
+              ┌─────────────┐
+              │  Game Start │
+              └─────────────┘
+                     │
+                     ▼
+              ┌─────────────┐
+              │ Initialize  │
+              │ Deal Cards  │
+              └─────────────┘
+                     │
+                     ▼
+              ┌─────────────┐
+              │Player's Turn│
+              └─────────────┘
+                     │
+                     ▼
+              ┌─────────────┐
+          ┌───┤   Hit or    │───┐
+          │   │   Stand?    │   │
+          │   └─────────────┘   │
+          │                     │
+          ▼                     ▼
+  ┌─────────────┐       ┌─────────────┐
+  │    Hit      │       │    Stand    │
+  └─────────────┘       └─────────────┘
+          │                     │
+          ▼                     │
+  ┌─────────────┐               │
+  │ Draw a Card │               │
+  └─────────────┘               │
+          │                     │
+          ▼                     │
+  ┌─────────────┐               │
+  │Score > 21 ? │───Yes─┐       │
+  └─────────────┘       │       │
+          │             │       │
+         No             │       │
+          │             │       │
+          └─────────────┘       │
+                                ▼
+                        ┌─────────────┐
+                        │Dealer's Turn│
+                        └─────────────┘
+                                │
+                                ▼
+                        ┌─────────────┐
+                        │ Draw Until  │
+                        │ Score >= 17 │
+                        └─────────────┘
+                                │
+                                ▼
+                        ┌─────────────┐
+                        │ Determine   │
+                        │   Winner    │
+                        └─────────────┘
+                                │
+                                ▼
+                        ┌─────────────┐
+                        │  Game Over  │
+                        └─────────────┘
+            </pre>
+        </div>
+    </section>
+    
+    <section class="doc-section">
+        <h2>Pseudocode</h2>
+        <pre>
+FUNCTION InitializeGame():
+    Create and shuffle deck
+    Deal 2 cards to player
+    Deal 1 card to dealer
+    IF player's score is 21 THEN
+        Player automatically stands
+    END IF
+
+FUNCTION PlayerHit():
+    IF game is not in "playing" state THEN
+        RETURN
+    END IF
+    
+    Draw a card for player
+    Calculate player's score
+    
+    IF score > 21 THEN
+        Game over, dealer wins
+    ELSE IF score = 21 THEN
+        Player automatically stands
+    END IF
+
+FUNCTION PlayerStand():
+    IF game is not in "playing" state THEN
+        RETURN
+    END IF
+    
+    WHILE dealer's score < 17 DO
+        Draw a card for dealer
+    END WHILE
+    
+    IF dealer's score > 21 THEN
+        Player wins
+    ELSE IF dealer's score > player's score THEN
+        Dealer wins
+    ELSE IF dealer's score < player's score THEN
+        Player wins
+    ELSE
+        Dealer wins (tie goes to dealer)
+    END IF
+
+FUNCTION CalculateHandScore(hand):
+    score = 0
+    aces = 0
+    
+    FOR each card in hand DO
+        IF card is Ace THEN
+            aces = aces + 1
+            score = score + 1
+        ELSE IF card is face card THEN
+            score = score + 10
+        ELSE
+            score = score + card value
+        END IF
+    END FOR
+    
+    FOR i = 1 to aces DO
+        IF score + 13 <= 21 THEN
+            score = score + 13
+        END IF
+    END FOR
+    
+    RETURN score
+        </pre>
+    </section>
+    
+    <section class="doc-section">
+        <h2>Class Structure</h2>
+        <p>The following classes are used to implement the Game 21:</p>
+        
+        <ul>
+            <li><strong>Game</strong> - The main game class that handles the game logic and state.</li>
+            <li><strong>DeckOfCards</strong> - Represents a deck of playing cards with methods for shuffling and drawing.</li>
+            <li><strong>CardHand</strong> - Represents a hand of cards for a player or dealer.</li>
+            <li><strong>Card</strong> - The base class for a playing card with suit and value.</li>
+            <li><strong>CardGraphic</strong> - Extends Card to provide graphical representation of cards.</li>
+        </ul>
+        
+        <p>The existing card classes from the previous assignment are reused for this implementation.</p>
+    </section>
+    
+    <div class="action-links">
+        <a href="{{ path('game_landing') }}" class="btn">Back to Game</a>
+        <a href="{{ path('game_init') }}" class="btn">Start Playing</a>
+    </div>
+{% endblock %}

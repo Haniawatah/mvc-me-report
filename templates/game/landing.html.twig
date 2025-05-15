@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game 21 | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Game 21</h1>
+    
+    <div class="game-intro">
+        <h2>Rules of the Game</h2>
+        <p>
+            Game 21 is a card game where you try to get a hand value as close to 21 as possible without going over.
+            You compete against the dealer (the bank). The player with the best hand wins.
+        </p>
+        
+        <h3>How to Play:</h3>
+        <ol>
+            <li>You start with two cards, while the dealer gets one card face up.</li>
+            <li>Cards 2-10 are worth their face value. Face cards (Jack, Queen, King) are worth 10. Aces can be worth either 1 or 14, whichever is more beneficial.</li>
+            <li>You can choose to "hit" (get another card) or "stand" (keep your current hand).</li>
+            <li>If your hand exceeds 21, you "bust" and the dealer wins automatically.</li>
+            <li>Once you stand, the dealer draws cards until they have at least 17 points.</li>
+            <li>If the dealer busts, you win. Otherwise, whoever has the higher hand value wins.</li>
+            <li>In case of a tie, the dealer wins.</li>
+        </ol>
+        
+        <div class="action-links">
+            <a href="{{ path('game_init') }}" class="btn">Start Game</a>
+            <a href="{{ path('game_doc') }}" class="btn">Game Documentation</a>
+        </div>
+    </div>
+{% endblock %}

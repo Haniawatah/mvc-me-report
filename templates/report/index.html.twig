@@ -47,7 +47,15 @@
     
     <section id="kmom03" class="report-section">
         <h2>Kmom03</h2>
-        <p>Coming soon...</p>
+        <p>This week, I built the card game "21" (Blackjack) in PHP using Symfony. It was a fun challenge and helped me practice object-oriented programming while also applying the MVC structure more deeply. I reused and extended my previous classes like Card, CardHand, and DeckOfCards, and then added a new class for the Game logic to handle the rules of 21. The game supports drawing cards, stopping, and letting the bank take its turn — with logic that makes the bank stop at 17 or more.</p>
+
+        <p>I created a route for the game’s landing page at <code>/game</code>, where I added a short description of the rules and a button to start a round. I also made a <code>/game/play</code> route where the player can take a card or stop. If the player goes over 21, the game ends and the bank wins. If the player stops, the bank starts playing. The game shows the cards on the screen and updates after each move.</p>
+
+        <p>To keep the game state between moves, I stored the deck, player hand, and bank hand in the session. I also added a <code>/game/doc</code> page with a flowchart image, pseudocode, and a short class overview. This helped me organize my thoughts before starting the coding part.</p>
+
+        <p>I used basic HTML and CSS to display the cards using UTF-8 symbols. I didn’t focus too much on design this time — just made sure it was clear and worked well. My controllers are thin and most of the logic is inside separate classes. That made the code easier to manage and read.</p>
+
+        <p>TIL: how to structure a full game in Symfony with session-based state, and how important planning (like flowcharts and pseudocode) is before writing code.</p>
     </section>
     
     <section id="kmom04" class="report-section">
