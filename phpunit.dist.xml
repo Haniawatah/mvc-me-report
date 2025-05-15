@@ -30,10 +30,12 @@
 
     <source>
         <include>
-            <directory>src</directory>
+            <directory suffix=".php">src</directory>
         </include>
         <exclude>
+            <directory>src/Controller</directory>
             <directory>src/DataFixtures</directory>
+            <directory>src/Kernel.php</directory>
         </exclude>
     </source>
 </phpunit>

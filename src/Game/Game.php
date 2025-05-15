@@ -5,16 +5,47 @@ namespace App\Game;
 use App\Card\CardHand;
 use App\Card\DeckOfCards;
 
+/**
+ * Game class for the Game 21 (Blackjack) implementation
+ * 
+ * This class handles all game logic for the Game 21 card game
+ * including dealing cards, managing player and dealer actions,
+ * calculating scores, and determining the game winner.
+ */
 class Game
 {
+    /**
+     * @var DeckOfCards The deck of cards used in the game
+     */
     private DeckOfCards $deck;
+
+    /**
+     * @var CardHand The player's hand of cards
+     */
     private CardHand $playerHand;
+
+    /**
+     * @var CardHand The dealer's hand of cards
+     */
     private CardHand $dealerHand;
+
+    /**
+     * @var string Current state of the game ("waiting", "playing", "dealer_playing", or "game_over")
+     */
     private string $gameState = "waiting";
+
+    /**
+     * @var string Result of the game ("player_wins", "dealer_wins", or empty string if game is ongoing)
+     */
     private string $result = "";
 
     /**
      * Initialize the game
+     * 
+     * Creates a new shuffled deck, deals initial cards (2 to player, 1 to dealer),
+     * and sets the game state to "playing". Also checks if the player has 21 from the start.
+     *
+     * @return void
      */
     public function init(): void
     {
@@ -42,7 +73,12 @@ class Game
     }
 
     /**
-     * Player takes a card
+     * Player takes a card (hit)
+     * 
+     * Draws a card from the deck and adds it to the player's hand.
+     * Checks if player busts (score > 21) or gets exactly 21.
+     *
+     * @return void
      */
     public function playerHit(): void
     {
@@ -65,6 +101,11 @@ class Game
 
     /**
      * Player stands, dealer plays
+     * 
+     * Dealer draws cards until reaching a score of 17 or higher.
+     * Then determines the winner based on the final scores.
+     *
+     * @return void
      */
     public function playerStand(): void
     {
@@ -99,6 +140,10 @@ class Game
 
     /**
      * Get player's hand
+     * 
+     * Returns the current player's hand object
+     *
+     * @return CardHand The player's hand of cards
      */
     public function getPlayerHand(): CardHand
     {
@@ -107,6 +152,10 @@ class Game
 
     /**
      * Get dealer's hand
+     * 
+     * Returns the current dealer's hand object
+     *
+     * @return CardHand The dealer's hand of cards
      */
     public function getDealerHand(): CardHand
     {
@@ -115,6 +164,10 @@ class Game
 
     /**
      * Calculate player score
+     * 
+     * Returns the current score of the player's hand
+     *
+     * @return int The total score of the player's hand
      */
     public function getPlayerScore(): int
     {
@@ -123,6 +176,10 @@ class Game
 
     /**
      * Calculate dealer score
+     * 
+     * Returns the current score of the dealer's hand
+     *
+     * @return int The total score of the dealer's hand
      */
     public function getDealerScore(): int
     {
@@ -131,6 +188,14 @@ class Game
 
     /**
      * Calculate the score of a hand
+     * 
+     * Adds up the values of all cards in the hand.
+     * Number cards are worth their face value, face cards are worth 10,
+     * and Aces can be worth either 1 or 14 (calculated automatically to
+     * maximize the hand score without exceeding 21).
+     *
+     * @param CardHand $hand The hand to calculate the score for
+     * @return int The total score of the hand
      */
     private function calculateHandScore(CardHand $hand): int
     {
@@ -161,6 +226,10 @@ class Game
 
     /**
      * Get the current game state
+     * 
+     * Possible states: "waiting", "playing", "dealer_playing", "game_over"
+     *
+     * @return string The current game state
      */
     public function getGameState(): string
     {
@@ -169,6 +238,11 @@ class Game
 
     /**
      * Get the result of the game
+     * 
+     * Returns the result of the game: "player_wins", "dealer_wins",
+     * or an empty string if the game is still ongoing
+     *
+     * @return string The result of the game
      */
     public function getResult(): string
     {
@@ -177,6 +251,10 @@ class Game
 
     /**
      * Check if game is over
+     * 
+     * Returns true if the game state is "game_over"
+     *
+     * @return bool True if the game is over, false otherwise
      */
     public function isGameOver(): bool
     {
