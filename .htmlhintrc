@@ -1,0 +1,6 @@
+{
+  "attr-lowercase": false,
+  "ignoreFiles": [
+    "coverage-report/**/*.html"
+  ]
+}

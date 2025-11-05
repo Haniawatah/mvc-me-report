@@ -1,0 +1,17 @@
+{
+  "php": "8.1",
+  "path": [
+    "src"
+  ],
+  "exclude": [
+    "vendor",
+    "var",
+    "tests"
+  ],
+  "report": {
+    "html": "docs/phpmetrics"
+  },
+  "plugins": {
+    "git": false
+  }
+}

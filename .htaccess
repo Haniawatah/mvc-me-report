@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # If the requested resource is not a file or directory
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Redirect to the public directory
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+    
+    # If accessing the root directory, redirect to public/
+    RewriteRule ^$ public/ [L]
+</IfModule>
+
+# If mod_rewrite isn't available, try with mod_alias
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        # Redirect to the public directory
+        RedirectMatch 302 ^/(?!public/)(.*)$ /~maix24/dbwebb-kurser/mvc/me/report/public/$1
+    </IfModule>
+</IfModule>

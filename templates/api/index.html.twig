@@ -18,22 +18,6 @@
                 <p><strong>URL:</strong> <code>/api/deck</code></p>
                 <p><strong>Method:</strong> GET</p>
                 <p><strong>Response Format:</strong> JSON</p>
-                
-                <h3>Example Response:</h3>
-                <pre><code>
-{
-    "deck": [
-        {
-            "suit": "Hearts",
-            "value": "2",
-            "symbol": "♥",
-            "representation": "[2♥]"
-        },
-        // More cards...
-    ],
-    "count": 52
-}
-                </code></pre>
             </div>
         </div>
 
@@ -45,22 +29,6 @@
                 <p><strong>URL:</strong> <code>/api/deck/shuffle</code></p>
                 <p><strong>Method:</strong> POST</p>
                 <p><strong>Response Format:</strong> JSON</p>
-                
-                <h3>Example Response:</h3>
-                <pre><code>
-{
-    "deck": [
-        {
-            "suit": "Clubs",
-            "value": "7",
-            "symbol": "♣",
-            "representation": "[7♣]"
-        },
-        // More cards in shuffled order...
-    ],
-    "count": 52
-}
-                </code></pre>
             </div>
         </div>
 
@@ -72,96 +40,17 @@
                 <p><strong>URL:</strong> <code>/api/deck/draw</code></p>
                 <p><strong>Method:</strong> POST</p>
                 <p><strong>Response Format:</strong> JSON</p>
-                
-                <h3>Example Response:</h3>
-                <pre><code>
-{
-    "cards": [
-        {
-            "suit": "Diamonds",
-            "value": "Queen",
-            "symbol": "♦",
-            "representation": "[Q♦]"
-        }
-    ],
-    "count": 1,
-    "remaining": 51
-}
-                </code></pre>
             </div>
         </div>
 
         <div class="endpoint">
             <h2>Draw Multiple Cards</h2>
-            <p>Draws a specified number of cards from the deck.</p>
+            <p>Draws multiple cards from the deck.</p>
             
             <div class="endpoint-details">
                 <p><strong>URL:</strong> <code>/api/deck/draw/{number}</code></p>
                 <p><strong>Method:</strong> POST</p>
-                <p><strong>Parameters:</strong></p>
-                <ul>
-                    <li><code>{number}</code> - Number of cards to draw</li>
-                </ul>
                 <p><strong>Response Format:</strong> JSON</p>
-                
-                <h3>Example Response:</h3>
-                <pre><code>
-{
-    "cards": [
-        {
-            "suit": "Hearts",
-            "value": "5",
-            "symbol": "♥",
-            "representation": "[5♥]"
-        },
-        // More cards...
-    ],
-    "count": 5,
-    "remaining": 47
-}
-                </code></pre>
-            </div>
-        </div>
-
-        <div class="endpoint">
-            <h2>Deal Cards</h2>
-            <p>Deals a specified number of cards to a specified number of players.</p>
-            
-            <div class="endpoint-details">
-                <p><strong>URL:</strong> <code>/api/deck/deal/{players}/{cards}</code></p>
-                <p><strong>Method:</strong> POST</p>
-                <p><strong>Parameters:</strong></p>
-                <ul>
-                    <li><code>{players}</code> - Number of players</li>
-                    <li><code>{cards}</code> - Number of cards per player</li>
-                </ul>
-                <p><strong>Response Format:</strong> JSON</p>
-                
-                <h3>Example Response:</h3>
-                <pre><code>
-{
-    "players": 3,
-    "cards_per_player": 5,
-    "hands": {
-        "1": [
-            {
-                "suit": "Diamonds",
-                "value": "7",
-                "symbol": "♦",
-                "representation": "[7♦]"
-            },
-            // More cards...
-        ],
-        "2": [
-            // Player 2's cards
-        ],
-        "3": [
-            // Player 3's cards
-        ]
-    },
-    "remaining": 37
-}
-                </code></pre>
             </div>
         </div>
 
@@ -170,7 +59,7 @@
             <p>Returns a random quote along with the current date and timestamp.</p>
             
             <div class="endpoint-details">
-                <p><strong>URL:</strong> <a href="{{ path('api_quote') }}">/api/quote</a></p>
+                <p><strong>URL:</strong> <a href="{{ path('api_quote') }}"><code>/api/quote</code></a></p>
                 <p><strong>Method:</strong> GET</p>
                 <p><strong>Response Format:</strong> JSON</p>
                 
@@ -182,6 +71,83 @@
     "timestamp": 1681568000
 }
                 </code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h2>Game 21 Status</h2>
+            <p>Returns the current state of the Game 21.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <a href="{{ path('api_game') }}"><code>/api/game</code></a></p>
+                <p><strong>Method:</strong> GET</p>
+                <p><strong>Response Format:</strong> JSON</p>
+                
+                <h3>Example Response:</h3>
+                <pre><code>
+{
+    "gameState": "playing",
+    "result": "",
+    "isGameOver": false,
+    "playerHand": {
+        "count": 2,
+        "cards": [
+            {
+                "suit": "Hearts",
+                "value": "7",
+                "symbol": "♥",
+                "numericValue": 7
+            },
+            {
+                "suit": "Clubs",
+                "value": "King",
+                "symbol": "♣",
+                "numericValue": 10
+            }
+        ]
+    },
+    "dealerHand": {
+        "count": 1,
+        "cards": [
+            {
+                "suit": "Diamonds",
+                "value": "5",
+                "symbol": "♦",
+                "numericValue": 5
+            }
+        ]
+    },
+    "playerScore": 17,
+    "dealerScore": 5,
+    "actions": {
+        "hit": "/game/player/hit",
+        "stand": "/game/player/stand",
+        "reset": "/game/reset"
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h2>Library Books</h2>
+            <p>Returns all books in the library.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <a href="{{ path('api_library_books') }}"><code>/api/library/books</code></a></p>
+                <p><strong>Method:</strong> GET</p>
+                <p><strong>Response Format:</strong> JSON</p>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h2>Get Book by ISBN</h2>
+            <p>Returns details about a specific book by its ISBN number.</p>
+            
+            <div class="endpoint-details">
+                <p><strong>URL:</strong> <code>/api/library/book/{isbn}</code> (Example: <a href="/~maix24/dbwebb-kurser/mvc/me/report/public/api/library/book/9781234567890"><code>/api/library/book/9781234567890</code></a>)</p>
+                <p><strong>Method:</strong> GET</p>
+                <p><strong>Response Format:</strong> JSON</p>
             </div>
         </div>
     </div>

@@ -60,12 +60,36 @@
     
     <section id="kmom04" class="report-section">
         <h2>Kmom04</h2>
-        <p>Coming soon...</p>
+        <p>Whew, this unit testing week was definitely an eye-opener! I honestly thought writing tests would be super boring and not worth the time, but I was totally wrong. It actually helped me catch some stupid bugs I didn't even know were there.</p>
+        
+        <p>Getting PHPUnit working was a bit of a pain at first. The documentation is good, but figuring out exactly how to structure my tests took some trial and error. I started with the Card class since it's pretty simple, then moved on to testing DeckOfCards and the Game class.</p>
+        
+        <p>The biggest surprise was how testing made me rethink my code. I had this huge method in my Game class that was doing too many things at once, which made it impossible to test properly. I split it into smaller methods that each did one thing, which not only made testing easier but actually made the code cleaner and easier to understand. Who knew?</p>
+        
+        <p>I got stuck for a while trying to test the shuffling method. How do you test something that's supposed to be random? In the end I just checked that the card count stayed the same but the order changed, which seemed good enough.</p>
+        
+        <p>Using mocks was pretty cool once I figured them out. For testing what happens when the dealer busts, I didn't want to set up a whole game state with specific cards - I just mocked the Game class to return a score of 22 when getDealerScore() was called. That saved a ton of work!</p>
+        
+        <p>I managed to get over 90% coverage on my model classes, which felt great! The controllers are still a bit low because they're so tied to the framework. Is it worth mocking all of Symfony just to test a controller? Probably not.</p>
+        
+        <p>I definitely get why people talk about "test-driven development" now. It was actually kind of fun watching the coverage percentage go up as I fixed things. It's like a weird programming game where you're competing against your own code.</p>
+        
+        <p>TIL: Writing tests first forces you to think about how your code will actually be used, which naturally leads to better design decisions.</p>
     </section>
     
     <section id="kmom05" class="report-section">
         <h2>Kmom05</h2>
-        <p>Coming soon...</p>
+        <p>This week I got to work with databases in Symfony using Doctrine, which was a fun new challenge! I created a little library application where you can store information about books. At first, I was a bit confused about all the different parts of Doctrine - entities, repositories, migrations - but after playing around with them, it started to make sense.</p>
+
+        <p>Setting up the database connection wasn't too bad with SQLite. I just needed to update the .env.local file and create the database file. I had some trouble at first because my web and console commands were using different database files, but I managed to fix it by adding a command to synchronize them. The most confusing part was figuring out where exactly the database file was being created.</p>
+
+        <p>Creating the Book entity was pretty straightforward using the Symfony maker bundle. It's cool how Symfony generates all the getters and setters automatically. I created fields for title, ISBN, author, image URL, and description. Then I just needed to update the database schema and add some sample books.</p>
+        
+        <p>I built a complete CRUD interface for my library - Create, Read, Update, Delete. The views were pretty simple, just forms and lists, but they work well. I also added API endpoints so you can get all books as JSON or search for a specific book by ISBN. At first I forgot to include the option to reset the database to its original content, so I added that as a bonus feature.</p>
+
+        <p>The object-relational mapping (ORM) concept is interesting - it's like translating between two different worlds: PHP objects and database tables. Sometimes it feels like extra work compared to writing SQL directly, but I can see how it would be really helpful in a big project with complex relationships.</p>
+        
+        <p>TIL: Even though databases can seem complicated with all these fancy patterns and abstractions, they're really just a way to store structured data. The Doctrine tools make it much easier to work with databases without having to write raw SQL all the time.</p>
     </section>
     
     <section id="kmom06" class="report-section">

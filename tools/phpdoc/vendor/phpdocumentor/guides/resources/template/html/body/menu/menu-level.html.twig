@@ -1,0 +1,5 @@
+<ul class="menu-level">
+    {% for entry in node.menuEntries -%}
+        {{ renderNode(entry) }}
+    {% endfor %}
+</ul>

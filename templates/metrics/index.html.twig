@@ -1,0 +1,74 @@
+{# filepath: \\wsl.localhost\Ubuntu\home\hani_awa\dbwebb-kurser\mvc\me\report\templates\metrics\index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Metrics analys{% endblock %}
+
+{% block body %}
+<h1>Metrics analys</h1>
+
+<p>
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
+    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/build.png?b=main" alt="Build Status">
+  </a>
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
+    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/coverage.png?b=main" alt="Coverage">
+  </a>
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
+    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/quality-score.png?b=main" alt="Quality">
+  </a>
+</p>
+
+<h2>Introduktion: 6C (och 7C)</h2>
+<ul>
+  <li>Codestyle – enhetlig stil via csfix.</li>
+  <li>Coverage – testtäckning med phpunit.</li>
+  <li>Complexity – cyklomatisk komplexitet.</li>
+  <li>Cohesion – samla relaterat ansvar.</li>
+  <li>Coupling – minska beroenden (DI/gränssnitt).</li>
+  <li>CRAP – komplexitet + låg täckning.</li>
+  <li>Code smell – linter-varningar (7C).</li>
+</ul>
+
+<p>Exempel (före):</p>
+<ul>
+  <li>Coverage: ~X%</li>
+  <li>Hög komplexitet i Klass/Metod A (CRAP ~Y)</li>
+  <li>Hög coupling i Paket/Modul B</li>
+</ul>
+
+<h2>Phpmetrics</h2>
+<ol>
+  <li>Metod M1: hög cyklomatisk komplexitet och CRAP.</li>
+  <li>Klass K1: låg cohesion (flera ansvar).</li>
+  <li>Paket P1: hög coupling.</li>
+</ol>
+<p>Lägg in bilder från docs/phpmetrics här.</p>
+
+<h2>Scrutinizer</h2>
+<ol>
+  <li>Quality issues (namngivning, död kod, duplicering).</li>
+  <li>Coverage per fil.</li>
+  <li>Hotspots (långa metoder, parameterlistor).</li>
+</ol>
+
+<h2>Förbättringar (plan)</h2>
+<ul>
+  <li>Extrahera metoder i M1 (Complexity/CRAP).</li>
+  <li>Öka tester kring K1 och kritiska paths (Coverage/CRAP).</li>
+  <li>Minska coupling i P1 (Coupling/Cohesion).</li>
+</ul>
+
+<h2>Resultat (före → efter)</h2>
+<ul>
+  <li>Coverage: X% → X%+Δ</li>
+  <li>Quality score: S → S+Δ</li>
+  <li>CRAP i M1: Y → Y-Δ</li>
+</ul>
+
+<h2>Diskussion</h2>
+<ul>
+  <li>Iterativt arbete med verktyg + refaktorering ger mätbar förbättring.</li>
+  <li>Fördelar: bättre design, färre regressioner; Nackdelar: tidskostnad.</li>
+  <li>Fortsättning: kodgranskning, CI-gates, policyer.</li>
+</ul>
+{% endblock %}

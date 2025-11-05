@@ -1,0 +1,38 @@
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - command: 'vendor/bin/phpunit --configuration phpunit.xml.dist --log-junit build/logs/junit.xml --coverage-clover build/logs/clover.xml'
+      environment:
+        php:
+          version: '8.2'
+  environment:
+    php:
+      version: '8.2'
+  tests:
+    override:
+      - command: composer install --no-interaction --prefer-dist
+      - command: composer coverage
+        coverage:
+          file: build/logs/clover.xml
+          format: clover
+
+checks:
+  php: true
+  code_rating: true
+  duplication: true
+
+tools:
+  external_code_coverage: true
+  php_mess_detector: true
+  php_loc: true
+  php_cpd: true
+  external_code_coverage:
+    timeout: 600
+    runs: 1
+
+filter:
+  paths:
+    - src/*
+    - tests/*

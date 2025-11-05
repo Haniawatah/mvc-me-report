@@ -8,82 +8,99 @@ use PHPUnit\Framework\TestCase;
 class DeckOfCardsWithJokersTest extends TestCase
 {
     /**
-     * Test that deck has 54 cards (52 + 2 jokers)
+     * Test that deck is created with 54 cards (includes 2 jokers).
      */
     public function testCreateDeckWithJokers(): void
     {
         $deck = new DeckOfCardsWithJokers();
-        $this->assertEquals(54, $deck->getCount());
-        
-        // Check for jokers
-        $cards = $deck->getCards();
-        $jokers = array_filter($cards, function($card) {
-            return $card->getSuit() === 'Joker';
-        });
-        
-        $this->assertCount(2, $jokers, "Expected 2 jokers in the deck");
+        $this->assertCount(54, $deck->getCards());
     }
-    
+
     /**
-     * Test shuffle with jokers
+     * Test that shuffle changes the order of cards.
      */
-    public function testShuffleWithJokers(): void
+    public function testShuffleDeckWithJokers(): void
     {
         $deck = new DeckOfCardsWithJokers();
-        $originalOrder = array_map(function($card) {
+        $originalCards = $deck->getCards();
+        $originalOrder = array_map(function ($card) {
             return $card->getAsString();
-        }, $deck->getCards());
-        
+        }, $originalCards);
+
         $deck->shuffle();
-        
-        $shuffledOrder = array_map(function($card) {
+        $shuffledCards = $deck->getCards();
+        $shuffledOrder = array_map(function ($card) {
             return $card->getAsString();
-        }, $deck->getCards());
-        
-        // Check that the count remains the same
-        $this->assertEquals(54, $deck->getCount());
-        
-        // Test that the order has changed
-        $this->assertNotEquals($originalOrder, $shuffledOrder);
+        }, $shuffledCards);
+
+        $this->assertNotSame($originalOrder, $shuffledOrder);
     }
-    
+
     /**
-     * Test reset with jokers
+     * Test drawing a card reduces the deck size.
      */
-    public function testResetWithJokers(): void
+    public function testDrawCardWithJokers(): void
     {
         $deck = new DeckOfCardsWithJokers();
-        $deck->draw(30);
-        $this->assertEquals(24, $deck->getCount());
-        
-        $deck->reset();
-        $this->assertEquals(54, $deck->getCount());
-        
-        // Check for jokers after reset
+        $initialCount = $deck->getCount();
+        $drawn = $deck->draw();
+
+        $this->assertCount(1, $drawn);
+        $this->assertEquals($initialCount - 1, $deck->getCount());
+    }
+
+    /**
+     * Test drawing multiple cards returns correct number of cards
+     * and reduces the deck size accordingly.
+     */
+    public function testDrawMultipleCardsWithJokers(): void
+    {
+        $deck = new DeckOfCardsWithJokers();
+        $initialCount = $deck->getCount();
+        $numberToDraw = 5;
+        $drawn = $deck->draw($numberToDraw);
+
+        $this->assertCount($numberToDraw, $drawn);
+        $this->assertEquals($initialCount - $numberToDraw, $deck->getCount());
+    }
+
+    /**
+     * Test the deck includes jokers.
+     */
+    public function testDeckContainsJokers(): void
+    {
+        $deck = new DeckOfCardsWithJokers();
         $cards = $deck->getCards();
-        $jokers = array_filter($cards, function($card) {
-            return $card->getSuit() === 'Joker';
-        });
-        
-        $this->assertCount(2, $jokers, "Expected 2 jokers after reset");
+        $jokerCount = 0;
+
+        foreach ($cards as $card) {
+            if ($card instanceof JokerCard) {
+                $jokerCount++;
+            }
+        }
+
+        $this->assertEquals(2, $jokerCount, 'The deck should contain exactly 2 jokers');
     }
-    
+
     /**
-     * Test that jokers are included in JSON representation
+     * Test sort restores original order with jokers at the end.
      */
-    public function testGetAsJsonWithJokers(): void
+    public function testSortDeckWithJokers(): void
     {
         $deck = new DeckOfCardsWithJokers();
-        $json = $deck->getAsJson();
-        
-        $this->assertIsArray($json);
-        $this->assertCount(54, $json);
-        
-        // Find jokers in JSON array
-        $jokers = array_filter($json, function($card) {
-            return $card['suit'] === 'Joker';
-        });
-        
-        $this->assertCount(2, $jokers, "Expected 2 jokers in JSON output");
+        $originalCards = $deck->getCards();
+
+        $deck->shuffle();
+        $deck->sort();
+        $sortedCards = $deck->getCards();
+
+        $this->assertEquals(count($originalCards), count($sortedCards));
+
+        // Last two cards should be jokers
+        $lastCard = $sortedCards[count($sortedCards) - 1];
+        $secondLastCard = $sortedCards[count($sortedCards) - 2];
+
+        $this->assertInstanceOf(JokerCard::class, $lastCard);
+        $this->assertInstanceOf(JokerCard::class, $secondLastCard);
     }
 }

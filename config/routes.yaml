@@ -3,3 +3,22 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+# Define a specific home route
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
+api_openapi:
+    path: /api/docs.json
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template: 'api/openapi.json.twig'
+        maxAge: 86400
+        sharedAge: 86400
+
+metrics:
+  path: /metrics
+  controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+  defaults:
+    template: 'metrics/index.html.twig'

@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game 21 API Data | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Game 21 API Data</h1>
+    
+    <div class="api-view">
+        <div class="api-summary">
+            <h2>Game Summary</h2>
+            <ul>
+                <li><strong>Game State:</strong> {{ data.gameState|replace({'_': ' '})|title }}</li>
+                <li><strong>Result:</strong> {{ data.result ? data.result|replace({'_': ' '})|title : 'In Progress' }}</li>
+                <li><strong>Is Game Over:</strong> {{ data.isGameOver ? 'Yes' : 'No' }}</li>
+                <li><strong>Player Score:</strong> {{ data.playerScore }}</li>
+                <li><strong>Dealer Score:</strong> {{ data.dealerScore }}</li>
+            </ul>
+        </div>
+        
+        <div class="api-hands">
+            <div class="api-hand">
+                <h2>Player Hand ({{ data.playerHand.count }} cards)</h2>
+                <div class="card-hand">
+                    {% for card in data.playerHand.cards %}
+                        <div class="api-card {{ card.suit == 'Hearts' or card.suit == 'Diamonds' ? 'red' : 'black' }}">
+                            <span class="api-card-value">{{ card.value }}</span>
+                            <span class="api-card-symbol">{{ card.symbol|raw }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="api-hand">
+                <h2>Dealer Hand ({{ data.dealerHand.count }} cards)</h2>
+                <div class="card-hand">
+                    {% for card in data.dealerHand.cards %}
+                        <div class="api-card {{ card.suit == 'Hearts' or card.suit == 'Diamonds' ? 'red' : 'black' }}">
+                            <span class="api-card-value">{{ card.value }}</span>
+                            <span class="api-card-symbol">{{ card.symbol|raw }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="api-actions">
+            <h2>Available Actions</h2>
+            <ul>
+                <li><strong>Hit:</strong> <a href="{{ data.actions.hit }}">{{ data.actions.hit }}</a></li>
+                <li><strong>Stand:</strong> <a href="{{ data.actions.stand }}">{{ data.actions.stand }}</a></li>
+                <li><strong>Reset:</strong> <a href="{{ data.actions.reset }}">{{ data.actions.reset }}</a></li>
+            </ul>
+        </div>
+        
+        <div class="api-raw">
+            <h2>Raw JSON Data</h2>
+            <pre><code>{{ json }}</code></pre>
+            
+            <p class="api-note">Note: To get only the raw JSON data, send a request with the <code>Accept: application/json</code> header.</p>
+        </div>
+    </div>
+    
+    <div class="action-links">
+        <a href="{{ path('api_index') }}" class="btn">Back to API Documentation</a>
+        <a href="{{ path('game_landing') }}" class="btn">Back to Game</a>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .api-view {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .api-summary, .api-hands, .api-actions, .api-raw {
+        margin-bottom: 2rem;
+    }
+    
+    .api-hands {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+    
+    .api-hand {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .api-card {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 120px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin: 0.5rem;
+        position: relative;
+        border: 1px solid #ddd;
+    }
+    
+    .api-card.red {
+        color: #D40000;
+    }
+    
+    .api-card.black {
+        color: #000;
+    }
+    
+    .api-card-value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+    }
+    
+    .api-card-symbol {
+        font-size: 3rem;
+    }
+    
+    .api-raw pre {
+        background-color: #f5f5f5;
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+    
+    .api-note {
+        font-size: 0.9rem;
+        font-style: italic;
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}

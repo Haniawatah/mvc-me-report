@@ -26,7 +26,7 @@ class CardTest extends TestCase
         $card = new Card('Spades', 'Ace', 14);
         $this->assertEquals('[Ace of Spades]', $card->getAsString());
     }
-    
+
     /**
      * Test different card values
      */
@@ -36,7 +36,7 @@ class CardTest extends TestCase
         $this->assertEquals('Diamonds', $card1->getSuit());
         $this->assertEquals('Jack', $card1->getValue());
         $this->assertEquals(11, $card1->getNumericValue());
-        
+
         $card2 = new Card('Clubs', '2', 2);
         $this->assertEquals('Clubs', $card2->getSuit());
         $this->assertEquals('2', $card2->getValue());

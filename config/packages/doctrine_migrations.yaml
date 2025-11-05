@@ -1,0 +1,6 @@
+doctrine_migrations:
+    migrations_paths:
+        # namespace is arbitrary but should be different from App\Migrations
+        # as App\Migrations is reserved for custom migrations
+        'DoctrineMigrationsBundle': '%kernel.project_dir%/migrations'
+    enable_profiler: '%kernel.debug%'

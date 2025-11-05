@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ book.title }} | Library{% endblock %}
+
+{% block body %}
+    <h1>Book Details</h1>
+    
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <div class="book-detail">
+        <div class="book-detail-image">
+            {% if book.image %}
+                <img src="{{ book.image }}" alt="{{ book.title }}">
+            {% else %}
+                <div class="no-image">No Image</div>
+            {% endif %}
+        </div>
+        
+        <div class="book-detail-info">
+            <h2 class="book-title">{{ book.title }}</h2>
+            <p class="book-author">by {{ book.author }}</p>
+            <p class="book-isbn">ISBN: {{ book.isbn }}</p>
+            
+            {% if book.description %}
+                <div class="book-description">
+                    {{ book.description }}
+                </div>
+            {% endif %}
+            
+            <div class="book-detail-actions">
+                <a href="{{ path('library_edit', {'id': book.id}) }}" class="btn">Edit</a>
+                
+                <form method="post" action="{{ path('library_delete', {'id': book.id}) }}" onsubmit="return confirm('Are you sure you want to delete this book?');" style="display: inline;">
+                    <input type="hidden" name="_token" value="simple_token_{{ book.id }}">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+                
+                <a href="{{ path('library_index') }}" class="btn">Back to List</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

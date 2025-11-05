@@ -3,7 +3,7 @@
 namespace App\Card;
 
 /**
- * Class representing a playing card
+ * Playing card class
  */
 class Card
 {
@@ -18,14 +18,18 @@ class Card
     protected string $value;
 
     /**
-     * @var int The numeric value of the card (1-14)
+     * @var ?int The numeric value of the card (null for jokers)
      */
-    protected int $numericValue;
+    private ?int $numericValue = null;
 
     /**
-     * Create a new card
+     * Constructor to create a card with a suit and value
+     *
+     * @param string $suit The suit of the card
+     * @param string $value The value of the card
+     * @param ?int $numericValue The numeric value of the card (null for jokers)
      */
-    public function __construct(string $suit, string $value, int $numericValue)
+    public function __construct(string $suit, string $value, ?int $numericValue = null)
     {
         $this->suit = $suit;
         $this->value = $value;
@@ -34,6 +38,8 @@ class Card
 
     /**
      * Get the suit of the card
+     *
+     * @return string The suit of the card
      */
     public function getSuit(): string
     {
@@ -42,6 +48,8 @@ class Card
 
     /**
      * Get the value of the card
+     *
+     * @return string The value of the card
      */
     public function getValue(): string
     {
@@ -49,18 +57,46 @@ class Card
     }
 
     /**
-     * Get the numeric value of the card
-     */
-    public function getNumericValue(): int
-    {
-        return $this->numericValue;
-    }
-
-    /**
-     * Get the card as a string
+     * Get a string representation of the card
+     *
+     * @return string A string representation of the card
      */
     public function getAsString(): string
     {
+        // Special-case Joker
+        if ($this->suit === 'Joker' || $this->value === 'Joker') {
+            return '[Joker]';
+        }
         return "[{$this->value} of {$this->suit}]";
+    }
+
+    /**
+     * Get an HTML representation of the card
+     *
+     * @return string An HTML representation of the card
+     */
+    public function getAsHtml(): string
+    {
+        return "<div class=\"card\"><div class=\"card-inner\"><div class=\"card-value\">{$this->value}</div></div></div>";
+    }
+
+    /**
+     * Get a symbol representation of the card's suit
+     *
+     * @return string The symbol of the card's suit
+     */
+    public function getSymbol(): string
+    {
+        return '?';
+    }
+
+    /**
+     * Get the numeric value of the card
+     *
+     * @return ?int The numeric value of the card (null for jokers)
+     */
+    public function getNumericValue(): ?int
+    {
+        return $this->numericValue;
     }
 }

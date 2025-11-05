@@ -2,39 +2,33 @@
 
 namespace App\Card;
 
+/**
+ * Deck of cards class
+ *
+ * Represents a standard deck of 52 playing cards
+ */
 class DeckOfCards
 {
     /**
-     * @var CardGraphic[] Array of cards
+     * @var array<CardGraphic> Array of Card objects in the deck
      */
     protected array $cards = [];
 
     /**
-     * @var array Available suits
+     * @var array Possible suits for cards
      */
-    protected array $suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+    private const SUITS = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
 
     /**
-     * @var array Available values with their numeric values
+     * @var array Possible values for cards
      */
-    protected array $values = [
-        '2' => 2,
-        '3' => 3,
-        '4' => 4,
-        '5' => 5,
-        '6' => 6,
-        '7' => 7,
-        '8' => 8,
-        '9' => 9,
-        '10' => 10,
-        'Jack' => 11,
-        'Queen' => 12,
-        'King' => 13,
-        'Ace' => 14
+    private const VALUES = [
+        '2', '3', '4', '5', '6', '7', '8', '9', '10',
+        'Jack', 'Queen', 'King', 'Ace'
     ];
 
     /**
-     * Create a new deck of cards
+     * Constructor that creates a standard deck of 52 cards
      */
     public function __construct()
     {
@@ -43,20 +37,23 @@ class DeckOfCards
 
     /**
      * Initialize a standard deck of 52 cards
+     *
+     * @return void
      */
     protected function initializeDeck(): void
     {
         $this->cards = [];
-        foreach ($this->suits as $suit) {
-            foreach ($this->values as $value => $numericValue) {
-                $this->cards[] = new CardGraphic($suit, $value, $numericValue);
+        foreach (self::SUITS as $suit) {
+            foreach (self::VALUES as $value) {
+                $this->cards[] = new CardGraphic($suit, $value);
             }
         }
     }
 
     /**
      * Get all cards in the deck
-     * @return CardGraphic[]
+     *
+     * @return array<CardGraphic> Array of Card objects
      */
     public function getCards(): array
     {
@@ -64,23 +61,9 @@ class DeckOfCards
     }
 
     /**
-     * Sort deck by suit and value
-     */
-    public function sortDeck(): void
-    {
-        usort($this->cards, function ($firstCard, $secondCard) {
-            $suitOrder = array_flip($this->suits);
-            
-            if ($suitOrder[$firstCard->getSuit()] === $suitOrder[$secondCard->getSuit()]) {
-                return $firstCard->getNumericValue() - $secondCard->getNumericValue();
-            }
-            
-            return $suitOrder[$firstCard->getSuit()] - $suitOrder[$secondCard->getSuit()];
-        });
-    }
-
-    /**
-     * Shuffle the deck of cards
+     * Shuffle the cards in the deck
+     *
+     * @return void
      */
     public function shuffle(): void
     {
@@ -89,52 +72,26 @@ class DeckOfCards
 
     /**
      * Draw a specified number of cards from the deck
-     * @return CardGraphic[]
+     *
+     * @param int $number Number of cards to draw
+     *
+     * @return array<CardGraphic> Array of drawn Card objects
      */
     public function draw(int $number = 1): array
     {
-        if ($number <= 0) {
-            return [];
+        $drawn = [];
+
+        for ($i = 0; $i < $number && !empty($this->cards); $i++) {
+            $drawn[] = array_pop($this->cards);
         }
 
-        $drawnCards = [];
-        $cardsCount = count($this->cards);
-        for ($i = 0; $i < $number && $i < $cardsCount; $i++) {
-            $drawnCards[] = array_shift($this->cards);
-        }
-        
-        return $drawnCards;
+        return $drawn;
     }
 
     /**
-     * Deal cards to a specified number of players
-     * @return CardHand[] Array of CardHand objects
-     */
-    public function deal(int $numPlayers, int $numCards): array
-    {
-        $hands = [];
-        
-        // Initialize hands for each player
-        for ($i = 0; $i < $numPlayers; $i++) {
-            $hands[] = new CardHand();
-        }
-        
-        // Deal cards to each player in turn
-        for ($i = 0; $i < $numCards; $i++) {
-            foreach ($hands as $hand) {
-                $cardsCount = count($this->cards);
-                if ($cardsCount > 0) {
-                    $card = $this->draw(1)[0];
-                    $hand->addCard($card);
-                }
-            }
-        }
-        
-        return $hands;
-    }
-
-    /**
-     * Get the number of cards remaining in the deck
+     * Get the count of cards remaining in the deck
+     *
+     * @return int Number of cards remaining
      */
     public function getCount(): int
     {
@@ -142,27 +99,53 @@ class DeckOfCards
     }
 
     /**
-     * Get deck as JSON serializable array
+     * Sort the deck back into order
+     *
+     * @return void
      */
-    public function getAsJson(): array
+    public function sort(): void
     {
-        $result = [];
-        foreach ($this->cards as $card) {
-            $result[] = [
-                'suit' => $card->getSuit(),
-                'value' => $card->getValue(),
-                'symbol' => $card->getSuitSymbol(),
-                'representation' => $card->getAsString()
-            ];
-        }
-        return $result;
+        $this->initializeDeck();
     }
 
     /**
-     * Reset the deck to its initial state
+     * Sort the deck back into order
+     *
+     * @return void
      */
-    public function reset(): void
+    public function sortDeck(): void
     {
-        $this->initializeDeck();
+        $this->sort();
+    }
+
+    /**
+     * Deal N cards to M players, returns array<CardHand>
+     */
+    public function deal(int $players, int $cardsPerPlayer): array
+    {
+        $hands = [];
+        for ($i = 0; $i < $players; $i++) {
+            $hand = new CardHand();
+            $drawn = $this->draw($cardsPerPlayer);
+            foreach ($drawn as $card) {
+                $hand->addCard($card);
+            }
+            $hands[] = $hand;
+        }
+        return $hands;
+    }
+
+    public function getAsJson(): array
+    {
+        $out = [];
+        foreach ($this->cards as $card) {
+            $out[] = [
+                'suit' => $card->getSuit(),
+                'value' => $card->getValue(),
+                'symbol' => $card->getSuitSymbol(),
+                'representation' => $card->getAsString(),
+            ];
+        }
+        return $out;
     }
 }

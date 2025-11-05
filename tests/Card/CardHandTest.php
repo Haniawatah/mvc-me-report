@@ -26,12 +26,12 @@ class CardHandTest extends TestCase
         $hand = new CardHand();
         $card1 = new CardGraphic('Hearts', '10', 10);
         $card2 = new CardGraphic('Spades', 'Ace', 14);
-        
+
         $hand->addCard($card1);
         $this->assertEquals(1, $hand->getCount());
         $this->assertCount(1, $hand->getCards());
         $this->assertSame($card1, $hand->getCards()[0]);
-        
+
         $hand->addCard($card2);
         $this->assertEquals(2, $hand->getCount());
         $this->assertCount(2, $hand->getCards());
@@ -47,7 +47,7 @@ class CardHandTest extends TestCase
         $hand = new CardHand();
         $card = new CardGraphic('Hearts', '10', 10);
         $hand->addCard($card);
-        
+
         $html = $hand->getAsHtml();
         $this->assertStringContainsString('<div class=\'card-hand\'>', $html);
         $this->assertStringContainsString('♥', $html);
@@ -64,14 +64,14 @@ class CardHandTest extends TestCase
         $card2 = new CardGraphic('Spades', 'Ace', 14);
         $hand->addCard($card1);
         $hand->addCard($card2);
-        
+
         $html = $hand->getAsHtml();
         $this->assertStringContainsString('♥', $html);
         $this->assertStringContainsString('10', $html);
         $this->assertStringContainsString('♠', $html);
         $this->assertStringContainsString('Ace', $html);
     }
-    
+
     /**
      * Test getAsHtml with empty hand
      */
@@ -81,7 +81,7 @@ class CardHandTest extends TestCase
         $html = $hand->getAsHtml();
         $this->assertEquals("<div class='card-hand'></div>", $html);
     }
-    
+
     /**
      * Test getAsJson method
      */
@@ -90,7 +90,7 @@ class CardHandTest extends TestCase
         $hand = new CardHand();
         $card = new CardGraphic('Hearts', '10', 10);
         $hand->addCard($card);
-        
+
         $json = $hand->getAsJson();
         $this->assertIsArray($json);
         $this->assertCount(1, $json);
@@ -99,7 +99,7 @@ class CardHandTest extends TestCase
         $this->assertEquals('♥', $json[0]['symbol']);
         $this->assertEquals('[10 of Hearts]', $json[0]['representation']);
     }
-    
+
     /**
      * Test getAsJson with multiple cards
      */
@@ -110,18 +110,18 @@ class CardHandTest extends TestCase
         $card2 = new CardGraphic('Spades', 'Ace', 14);
         $hand->addCard($card1);
         $hand->addCard($card2);
-        
+
         $json = $hand->getAsJson();
         $this->assertIsArray($json);
         $this->assertCount(2, $json);
-        
+
         $this->assertEquals('Hearts', $json[0]['suit']);
         $this->assertEquals('10', $json[0]['value']);
-        
+
         $this->assertEquals('Spades', $json[1]['suit']);
         $this->assertEquals('Ace', $json[1]['value']);
     }
-    
+
     /**
      * Test getAsJson with empty hand
      */

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Library Debug | MVC Course{% endblock %}
+
+{% block body %}
+    <h1>Library Database Debug</h1>
+    
+    <div class="debug-section">
+        <h2>Database Information</h2>
+        <pre>{{ db_info|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    </div>
+    
+    {% if last_added_book %}
+    <div class="debug-section">
+        <h2>Last Added Book</h2>
+        <pre>{{ last_added_book|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    </div>
+    {% endif %}
+    
+    <div class="debug-section">
+        <h2>Database Commands</h2>
+        <p>Run these commands in your terminal to fix database issues:</p>
+        <pre>
+php bin/console doctrine:schema:validate
+php bin/console doctrine:schema:create --force
+php bin/console dbal:run-sql "SELECT * FROM book"
+        </pre>
+    </div>
+    
+    <div class="action-links">
+        <a href="{{ path('library_index') }}" class="btn">Back to Library</a>
+    </div>
+{% endblock %}

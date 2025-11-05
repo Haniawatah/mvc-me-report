@@ -1,6 +1,32 @@
 # My MVC Course Project
 
+[![Build Status](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/build.png?b=main)](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/build-status/main)
+[![Code Coverage](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main)
+
 ![MVC Pattern](public/img/mvc-pattern.jpg)
+
+# MVC Course — Metrics & Quality
+
+<p>
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
+    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/build.png?b=main" alt="Build Status">
+  </a>
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
+    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/coverage.png?b=main" alt="Coverage">
+  </a>
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
+    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/quality-score.png?b=main" alt="Quality">
+  </a>
+</p>
+
+- Metrics landing page: /metrics (navbar link).
+- Local commands:
+  - composer phpunit
+  - composer csfix
+  - composer phpdoc
+  - composer phpmetrics
+  - composer phpmd
 
 ## What's this all about?
 
@@ -60,6 +86,10 @@ I'm trying to keep things organized, but no promises:
 
 Super simple for now:
 - `/api/quote` - Gives you a random quote and tells you when it was generated
+
+## Metrics
+
+- See the live analysis and discussion here: /metrics
 
 ## Connect with me
 

@@ -1,0 +1,4 @@
+{% apply spaceless %}
+<strong class="command{%- if node.class %} {{ node.class }}{% endif %}">{{ node.value }}</strong>
+
+{% endapply %}

@@ -26,17 +26,17 @@ class CardGraphicTest extends TestCase
     {
         $hearts = new CardGraphic('Hearts', '10', 10);
         $this->assertEquals('♥', $hearts->getSuitSymbol());
-        
+
         $diamonds = new CardGraphic('Diamonds', '5', 5);
         $this->assertEquals('♦', $diamonds->getSuitSymbol());
-        
+
         $clubs = new CardGraphic('Clubs', 'Jack', 11);
         $this->assertEquals('♣', $clubs->getSuitSymbol());
-        
+
         $spades = new CardGraphic('Spades', 'Queen', 12);
         $this->assertEquals('♠', $spades->getSuitSymbol());
     }
-    
+
     /**
      * Test getSuitSymbol for joker
      */
@@ -45,7 +45,7 @@ class CardGraphicTest extends TestCase
         $joker = new CardGraphic('Joker', 'Joker', 15);
         $this->assertEquals('🃏', $joker->getSuitSymbol());
     }
-    
+
     /**
      * Test getSuitSymbol for unknown suit
      */
@@ -62,13 +62,13 @@ class CardGraphicTest extends TestCase
     {
         $card = new CardGraphic('Hearts', '10', 10);
         $html = $card->getAsHtml();
-        
+
         // Check that HTML contains key parts
         $this->assertStringContainsString('♥', $html);
         $this->assertStringContainsString('10', $html);
         $this->assertStringContainsString('#D40000', $html); // Red color
     }
-    
+
     /**
      * Test getAsHtml for black suit (Clubs)
      */
@@ -76,12 +76,12 @@ class CardGraphicTest extends TestCase
     {
         $card = new CardGraphic('Clubs', 'Ace', 14);
         $html = $card->getAsHtml();
-        
+
         $this->assertStringContainsString('♣', $html);
         $this->assertStringContainsString('Ace', $html);
         $this->assertStringContainsString('#000000', $html); // Black color
     }
-    
+
     /**
      * Test getAsHtml for Joker
      */
@@ -89,11 +89,11 @@ class CardGraphicTest extends TestCase
     {
         $joker = new CardGraphic('Joker', 'Joker', 15);
         $html = $joker->getAsHtml();
-        
+
         $this->assertStringContainsString('🃏', $html);
         $this->assertStringContainsString('JOKER', $html);
     }
-    
+
     /**
      * Test getAsString for Joker
      */

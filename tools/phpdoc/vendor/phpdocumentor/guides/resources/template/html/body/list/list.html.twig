@@ -1,0 +1,11 @@
+{% set keyword = 'ul' %}
+
+{% if node.isOrdered %}
+    {% set keyword = 'ol' %}
+{% endif %}
+
+<{{ keyword }}{% if node.classes %} class="{{ node.classesString }}"{% endif %}>
+{% for child in node.children %}
+    {{ renderNode(child) }}
+{% endfor %}
+</{{ keyword }}>

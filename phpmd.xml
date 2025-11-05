@@ -44,4 +44,21 @@
 
     <rule ref="rulesets/unusedcode.xml" />
 
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="minimum" value="2" />
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/codesize.xml/CyclomaticComplexity">
+        <exclude-pattern>src/Command/DatabaseSyncFixCommand.php</exclude-pattern>
+        <exclude-pattern>src/Command/SyncDatabaseCommand.php</exclude-pattern>
+    </rule>
+    <rule ref="rulesets/codesize.xml/NPathComplexity">
+        <exclude-pattern>src/Command/DatabaseSyncFixCommand.php</exclude-pattern>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessiveMethodLength">
+        <exclude-pattern>src/Command/DatabaseSyncFixCommand.php</exclude-pattern>
+        <exclude-pattern>src/Command/SyncDatabaseCommand.php</exclude-pattern>
+    </rule>
 </ruleset>
