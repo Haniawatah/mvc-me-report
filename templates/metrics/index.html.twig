@@ -8,7 +8,7 @@
 {% set repo_name  = 'mvc-me-report' %}
 {% set branch     = 'main' %}
 
-<h1>Metrics analys</h1>
+<h1>Metrics-analys (kmom06)</h1>
 
 <p>
   <a href="https://scrutinizer-ci.com/g/{{ repo_owner }}/{{ repo_name }}/?branch={{ branch }}" target="_blank" rel="noopener">
@@ -21,60 +21,64 @@
     <img src="https://img.shields.io/scrutinizer/quality/g/{{ repo_owner }}/{{ repo_name }}/{{ branch }}?label=Quality" alt="Quality">
   </a>
 </p>
+<p><small>Om länkarna ger 404: lägg till repot i Scrutinizer, kontrollera att grenen “{{ branch }}” finns och kör en analys.</small></p>
 
-<p><small>Tip: If clicking a badge gives 404, add your repo in Scrutinizer, ensure the branch “{{ branch }}” exists, and trigger an analysis.</small></p>
+<h2>Varför denna sida?</h2>
+<p>
+  Jag använder två verktyg för att få en ärlig bild av min kod: phpmetrics (lokalt) och Scrutinizer (CI).
+  De hjälper mig hitta “var det gör mest nytta” att städa: komplexa metoder, låg testtäckning, död kod och osunda beroenden.
+</p>
 
-<h2>Introduktion: 6C (och 7C)</h2>
+<h2>6C (och 7C) – kort och konkret</h2>
 <ul>
-  <li>Codestyle – enhetlig stil via csfix.</li>
-  <li>Coverage – testtäckning med phpunit.</li>
-  <li>Complexity – cyklomatisk komplexitet.</li>
-  <li>Cohesion – samla relaterat ansvar.</li>
-  <li>Coupling – minska beroenden (DI/gränssnitt).</li>
-  <li>CRAP – komplexitet + låg täckning.</li>
-  <li>Code smell – linter-varningar (7C).</li>
+  <li><strong>Codestyle</strong>: körs via cs-fixer. Färre “stil-diffar”, lättare code review.</li>
+  <li><strong>Coverage</strong>: phpunit visar vad som saknar tester. Tester fångade t.ex. kantfall i <code>Game</code>.</li>
+  <li><strong>Complexity</strong>: långa/”greniga” metoder syns direkt. Se <code>Game::playerStand</code> och kommandon.</li>
+  <li><strong>Cohesion</strong>: tunnare controllers, logik i klasser (t.ex. Card/Deck/Game). Mindre “blandat ansvar”.</li>
+  <li><strong>Coupling</strong>: färre hårda beroenden/FQCN i onödan (imports i stället). Enklare att byta ut delar.</li>
+  <li><strong>CRAP</strong>: “komplex + låg täckning”. Jag bröt ned kod och la enkla tester där det behövdes.</li>
+  <li><strong>Code smell</strong> (7C): tog bort oanvända metoder/variabler (t.ex. i <code>ApiController</code> och <code>CardGraphic</code>).</li>
 </ul>
 
-<p>Exempel (före):</p>
-<ul>
-  <li>Coverage: ~X%</li>
-  <li>Hög komplexitet i Klass/Metod A (CRAP ~Y)</li>
-  <li>Hög coupling i Paket/Modul B</li>
-</ul>
-
-<h2>Phpmetrics</h2>
+<h2>Phpmetrics – vad stack ut</h2>
 <ol>
-  <li>Metod M1: hög cyklomatisk komplexitet och CRAP.</li>
-  <li>Klass K1: låg cohesion (flera ansvar).</li>
-  <li>Paket P1: hög coupling.</li>
+  <li><strong>Game::playerStand</strong>: många upprepade anrop till <code>getDealerScore()</code>. Jag cachade värdet och uppdaterar i loopen – mindre brus och förutsägbart beteende.</li>
+  <li><strong>Game::init</strong>: “auto-stand vid 21” kunde ge flakiga tester. Jag lade till en intern flagga och enkel kontroll så init inte kallar <code>playerStand()</code> dubbelt i mockade scenarion.</li>
+  <li><strong>DatabaseSyncFixCommand::execute</strong>: lång metod med flera sidospår. Jag accepterar den som ”maintenance-kommando” och dämpar larm via phpmd-regler (och noterar var jag hade brutit ut vid mer tid).</li>
 </ol>
-<p>Lägg in bilder från docs/phpmetrics här.</p>
+<p><small>Lokala rapporter: kör <code>composer metrics</code> och öppna <code>docs/phpmetrics/index.html</code>.</small></p>
 
-<h2>Scrutinizer</h2>
-<ol>
-  <li>Quality issues (namngivning, död kod, duplicering).</li>
-  <li>Coverage per fil.</li>
-  <li>Hotspots (långa metoder, parameterlistor).</li>
-</ol>
-
-<h2>Förbättringar (plan)</h2>
+<h2>Scrutinizer – vad jag fixade</h2>
 <ul>
-  <li>Extrahera metoder i M1 (Complexity/CRAP).</li>
-  <li>Öka tester kring K1 och kritiska paths (Coverage/CRAP).</li>
-  <li>Minska coupling i P1 (Coupling/Cohesion).</li>
+  <li>Tog bort oanvänd privat hjälpare i <code>ApiController</code> och en oanvänd property i <code>CardGraphic</code>.</li>
+  <li>La till <code>use</code>-imports i stället för FQCN på flera ställen (renare kod, lägre koppling).</li>
+  <li>Förbättrade felhantering i repository/kommandon så fel blir tydliga i stället för att döljas.</li>
 </ul>
 
-<h2>Resultat (före → efter)</h2>
+<h2>Förbättringar jag gjorde</h2>
 <ul>
-  <li>Coverage: X% → X%+Δ</li>
-  <li>Quality score: S → S+Δ</li>
-  <li>CRAP i M1: Y → Y-Δ</li>
+  <li><strong>Game</strong>: färre metodanrop i dealer-loop och stabilare logik kring 21.</li>
+  <li><strong>Card*</strong>: konsekventa HTML/JSON-representationer (symboler, suit, representation).</li>
+  <li><strong>PHPMD/CS</strong>: rensade död kod, la imports, dämpade larm där det är “administrativt långt” i stället för produktionskritisk komplexitet.</li>
 </ul>
 
-<h2>Diskussion</h2>
+<h2>Resultat (kvalitativt)</h2>
 <ul>
-  <li>Iterativt arbete med verktyg + refaktorering ger mätbar förbättring.</li>
-  <li>Fördelar: bättre design, färre regressioner; Nackdelar: tidskostnad.</li>
-  <li>Fortsättning: kodgranskning, CI-gates, policyer.</li>
+  <li>Mindre “rött” i rapporterna – särskilt runt onödiga anrop och oanvända delar.</li>
+  <li>Stabilare tester (mindre flakiness i Game).</li>
+  <li>Koden är lättare att läsa – mindre visuellt brus, tydligare ansvar.</li>
 </ul>
+
+<h2>Så här kör jag</h2>
+<ul>
+  <li><code>composer phpunit</code> – tester och coverage (Clover/HTML).</li>
+  <li><code>composer csfix</code> – kodstil.</li>
+  <li><code>composer metrics</code> – phpmetrics-rapport under <code>docs/phpmetrics</code>.</li>
+</ul>
+
+<h2>Reflektion</h2>
+<p>
+  Små, täta förbättringar funkar. Jag undviker att “jaga siffror” och fokuserar på de tydligaste fynden per runda.
+  Nästa steg: lätta CI-gates (cs/phpmd/phpunit) och fortsätta bryta ned långa kommandon när det ger verklig nytta.
+</p>
 {% endblock %}
