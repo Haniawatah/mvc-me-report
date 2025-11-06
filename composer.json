@@ -112,6 +112,6 @@
         "symfony/yaml": "6.2.*",
         "phpmd/phpmd": "^2.15",
         "phpstan/phpstan": "^1.12",
-        "phpmetrics/phpmetrics": "^3.0"
+        "phpmetrics/phpmetrics": "^2.9"
     }
 }
