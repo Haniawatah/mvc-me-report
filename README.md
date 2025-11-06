@@ -1,104 +1,42 @@
-# My MVC Course Project
+# MVC me/report
 
-[![Build Status](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/build.png?b=main)](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/build-status/main)
-[![Code Coverage](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main)
-
-![MVC Pattern](public/img/mvc-pattern.jpg)
-
-# MVC Course — Metrics & Quality
+Hej! Det här är mitt kursrepo för MVC-kursen. Jag försöker hålla koden smått pragmatisk:
+liten refaktorering ofta, tester först när det känns rimligt, och verktyg som hjälper mig
+se vart tiden gör mest nytta.
 
 <p>
-  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
-    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/build.png?b=main" alt="Build Status">
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/scrutinizer/build/g/Haniawatah/mvc-me-report/main?label=Build" alt="Build Status">
   </a>
-  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
-    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/coverage.png?b=main" alt="Coverage">
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/scrutinizer/coverage/g/Haniawatah/mvc-me-report/main?label=Coverage" alt="Coverage">
   </a>
-  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
-    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/quality-score.png?b=main" alt="Quality">
+  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/scrutinizer/quality/g/Haniawatah/mvc-me-report/main?label=Quality" alt="Quality">
   </a>
 </p>
 
-- Metrics landing page: /metrics (navbar link).
-- Local commands:
-  - composer phpunit
-  - composer csfix
-  - composer phpdoc
-  - composer phpmetrics
-  - composer phpmd
+An annoying thing might happen -_-
+If clicking a badge gives 404:
+- Add the repo in Scrutinizer and enable the correct branch (main/master).
+- Keep .scrutinizer.yml in the repo; push and trigger an analysis.
+- Ensure coverage is uploaded (either run phpunit in Scrutinizer build or use external_code_coverage). 
 
-## What's this all about?
+Snabbstart
+- Installera: composer install
+- Dev-server (studentserver kör via public/): besök public/index.php enligt din BASE_URL
+- Tester: composer phpunit
+- Fix kodstil: composer csfix
+- Metrics (phpmetrics): composer metrics
+- PHPDoc (om verktyget finns lokalt): composer phpdoc
 
-This is my messy journey through the MVC course at BTH! I'm documenting everything here - the good, the bad, and the "why won't this code work at 3 AM?!"
+Var finns vad?
+- /src: kod (controllers, entities, game, card)
+- /templates: Twig-views
+- /public: webroot för studentservern
+- /docs/phpmetrics: lokalt genererade metrics-rapporter (kör “composer metrics”)
 
-## Want to check it out?
-
-If you're brave enough to run my code (proceed at your own risk):
-
-```bash
-# Grab the repo
-git clone https://github.com/Haniawatah/mvc-me-report.git
-
-# Jump into the folder
-cd mvc-me-report
-
-# Install all the things
-composer install
-
-# Maybe you need to set up some environment stuff
-cp .env .env.local
-# (Then edit that .env.local file to match your setup)
-
-# Fire it up!
-symfony server:start
-# (Or use php -S localhost:8000 -t public/ if you're old school)
-```
-
-Then point your browser to `http://localhost:8000` and witness my creation!
-
-## Stuff I've built so far
-
-- A homepage with some info about me (nothing too personal, don't worry)
-- An about page explaining this course (as if I fully understand it myself)
-- Reports page where I document my struggles and occasional victories
-- A "Lucky Number" feature that honestly isn't that impressive but hey, it works!
-- My first attempts at creating an API (please be gentle)
-
-## Explore at your own risk
-
-- `/` - Just the basic homepage stuff
-- `/about` - What is MVC anyway? I try to explain
-- `/report` - My learning diary (a.k.a. "What confused me this week")
-- `/lucky` - Click for a random number! Revolutionary, I know
-- `/api/quote` - Returns a random quote that might inspire you or just make you go "huh?"
-
-## Project structure
-
-I'm trying to keep things organized, but no promises:
-
-- `public/` - The stuff your browser can actually see
-- `src/` - Where the real magic (or chaos) happens
-- `templates/` - Twig templates that I'm still getting used to
-- `config/` - So many settings! Why are there so many settings?!
-
-## My API experiments
-
-Super simple for now:
-- `/api/quote` - Gives you a random quote and tells you when it was generated
-
-## Metrics
-
-- See the live analysis and discussion here: /metrics
-
-## Connect with me
-
-If you actually read this far, wow! Thanks! Maybe you want to check out the repo: [https://github.com/Haniawatah/mvc-me-report](https://github.com/Haniawatah/mvc-me-report)
-
-## Version
-
-v0.1 - Just getting started, expect things to break!
-
-## About Me
-
-Student at BTH just trying to understand this whole MVC thing. Send coffee.
+Varför alla små förändringar?
+- Mindre magi, mer läsbarhet. Jag har t.ex. minskat antalet onödiga anrop i spelets dealer-loop,
+  rensat bort oanvänd kod och gjort JSON/HTML‑representationerna för korten konsekventa.
+- Jag föredrar små förbättringar som syns i verktygen (och i koden) framför stora omskrivningar.

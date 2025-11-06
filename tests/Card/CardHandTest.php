@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class CardHandTest extends TestCase
 {
     /**
-     * Test creating an empty hand
+     * Test creating  an empty hand
      */
     public function testCreateEmptyHand(): void
     {
@@ -40,7 +40,7 @@ class CardHandTest extends TestCase
     }
 
     /**
-     * Test getAsHtml method
+     * Test get  AsHtml method
      */
     public function testGetAsHtml(): void
     {
@@ -55,7 +55,7 @@ class CardHandTest extends TestCase
     }
 
     /**
-     * Test getAsHtml with multiple cards
+     * Test getAsHtml wth multiple cards
      */
     public function testGetAsHtmlMultipleCards(): void
     {
@@ -101,7 +101,7 @@ class CardHandTest extends TestCase
     }
 
     /**
-     * Test getAsJson with multiple cards
+     * Test getAsJson weth multiple cards
      */
     public function testGetAsJsonMultipleCards(): void
     {

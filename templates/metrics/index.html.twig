@@ -4,19 +4,25 @@
 {% block title %}Metrics analys{% endblock %}
 
 {% block body %}
+{% set repo_owner = 'Haniawatah' %}
+{% set repo_name  = 'mvc-me-report' %}
+{% set branch     = 'main' %}
+
 <h1>Metrics analys</h1>
 
 <p>
-  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
-    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/build.png?b=main" alt="Build Status">
+  <a href="https://scrutinizer-ci.com/g/{{ repo_owner }}/{{ repo_name }}/?branch={{ branch }}" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/scrutinizer/build/g/{{ repo_owner }}/{{ repo_name }}/{{ branch }}?label=Build" alt="Build Status">
   </a>
-  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
-    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/coverage.png?b=main" alt="Coverage">
+  <a href="https://scrutinizer-ci.com/g/{{ repo_owner }}/{{ repo_name }}/?branch={{ branch }}" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/scrutinizer/coverage/g/{{ repo_owner }}/{{ repo_name }}/{{ branch }}?label=Coverage" alt="Coverage">
   </a>
-  <a href="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/?branch=main" target="_blank">
-    <img src="https://scrutinizer-ci.com/g/Haniawatah/mvc-me-report/badges/quality-score.png?b=main" alt="Quality">
+  <a href="https://scrutinizer-ci.com/g/{{ repo_owner }}/{{ repo_name }}/?branch={{ branch }}" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/scrutinizer/quality/g/{{ repo_owner }}/{{ repo_name }}/{{ branch }}?label=Quality" alt="Quality">
   </a>
 </p>
+
+<p><small>Tip: If clicking a badge gives 404, add your repo in Scrutinizer, ensure the branch “{{ branch }}” exists, and trigger an analysis.</small></p>
 
 <h2>Introduktion: 6C (och 7C)</h2>
 <ul>
