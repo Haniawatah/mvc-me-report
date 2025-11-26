@@ -1,25 +1,23 @@
 build:
   nodes:
     analysis:
-      environment:
-        php:
-          version: '8.2'
+      environment: { php: 8.2 }
       dependencies:
         override:
-          - composer install --no-interaction --prefer-dist
+          - wget -q https://phar.phpunit.de/phpunit-9.6.phar -O phpunit.phar
       tests:
         override:
-          - command: 'vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-clover build/logs/clover.xml --log-junit build/logs/junit.xml'
+          - command: "php phpunit.phar --configuration phpunit.xml.dist --coverage-clover=coverage.xml"
             coverage:
-              file: 'build/logs/clover.xml'
-              format: 'clover'
-
+              file: coverage.xml
+              format: php-clover
 filter:
-  paths:
-    - src/*
+  excluded_paths:
     - tests/*
-
+    - proj/*
+    - vendor/*
+    - public/*
 checks:
-  php:
-    code_rating: true
-    duplication: true
+  php: true
+tools:
+  external_code_coverage: false

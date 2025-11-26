@@ -49,7 +49,7 @@
 <div class="page">
     <div class="content content-first">
         <div class="report-details">
-            Created at 2025-11-05 23:01:07        , with PHPMetrics v2.9.1 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
+            Created at 2025-11-26 19:26:12        , with PHPMetrics v2.9.1 (<a href="https://twitter.com/Halleck45">Jean-François Lépine</a>).
         </div>
 
         
@@ -58,25 +58,25 @@
         <div class="column">
             <div class="bloc bloc-number">
                 <div class="label">Violations</div>
-                <div class="number">8</div>
+                <div class="number">15</div>
             </div>
         </div>
         <div class="column">
             <div class="bloc bloc-number">
                 <div class="label">Information</div>
-                <div class="number">0</div>
+                <div class="number">1</div>
             </div>
         </div>
         <div class="column">
             <div class="bloc bloc-number">
                 <div class="label">Warnings</div>
-                <div class="number">5</div>
+                <div class="number">9</div>
             </div>
         </div>
         <div class="column">
             <div class="bloc bloc-number">
                 <div class="label">Errors</div>
-                <div class="number">3</div>
+                <div class="number">5</div>
             </div>
         </div>
         <div class="column">
@@ -102,10 +102,41 @@
                     
                             <tr>
                                 <td>
-                                    <a onclick="return toggle('bloc-690bd733a8b038.93252547');">
+                                    <a onclick="return toggle('bloc-69275454ed9b02.83285313');">
+                                        <span class="path">App\Game\Game</span>
+                                    </a>
+                                    <div class="violation-list" id="bloc-69275454ed9b02.83285313">
+                                                                                    <div class="violation">
+                                                <div class="name">
+                                                    Probably bugged                                                    <span
+                                                        class="badge level level-warning">warning</span>
+
+                                                </div>
+                                                <div
+                                                    class="description">            This component contains in theory 0.36 bugs.<br />
+<br />
+            * Calculation is based on number of operators, operands, cyclomatic complexity<br />
+            * See more details at https://en.wikipedia.org/wiki/Halstead_complexity_measures<br />
+            *  testsuites has dependency to this class.<br />
+<br />
+            Maybe you should check your unit tests for this class.</div>
+
+                                            </div>
+                                                                            </div>
+                                </td>
+
+                                <td valign="top">
+                                                                            <span
+                                            class="badge level level-warning"> Probably bugged</span>
+                                                                    </td>
+                            </tr>
+                        
+                            <tr>
+                                <td>
+                                    <a onclick="return toggle('bloc-69275454ed9ed5.19327212');">
                                         <span class="path">App\Controller\LibraryController</span>
                                     </a>
-                                    <div class="violation-list" id="bloc-690bd733a8b038.93252547">
+                                    <div class="violation-list" id="bloc-69275454ed9ed5.19327212">
                                                                                     <div class="violation">
                                                 <div class="name">
                                                     Probably bugged                                                    <span
@@ -133,10 +164,91 @@
                         
                             <tr>
                                 <td>
-                                    <a onclick="return toggle('bloc-690bd733a8b388.04667536');">
+                                    <a onclick="return toggle('bloc-69275454eda0a5.56789917');">
+                                        <span class="path">App\Controller\BlackjackController</span>
+                                    </a>
+                                    <div class="violation-list" id="bloc-69275454eda0a5.56789917">
+                                                                                    <div class="violation">
+                                                <div class="name">
+                                                    Too complex class code                                                    <span
+                                                        class="badge level level-error">error</span>
+
+                                                </div>
+                                                <div
+                                                    class="description">            This class looks really complex.<br />
+<br />
+            * Algorithms are complex (Total cyclomatic complexity of class is 71)<br />
+            * Component uses 188 operators<br />
+<br />
+            Maybe you should delegate some code to other objects.</div>
+
+                                            </div>
+                                                                                    <div class="violation">
+                                                <div class="name">
+                                                    Too complex method code                                                    <span
+                                                        class="badge level level-error">error</span>
+
+                                                </div>
+                                                <div
+                                                    class="description">            This class looks really complex.<br />
+<br />
+            * Algorithms are complex (Max cyclomatic complexity of class methods is 71)<br />
+<br />
+            Maybe you should delegate some code to other objects or split complex method.</div>
+
+                                            </div>
+                                                                                    <div class="violation">
+                                                <div class="name">
+                                                    Probably bugged                                                    <span
+                                                        class="badge level level-warning">warning</span>
+
+                                                </div>
+                                                <div
+                                                    class="description">            This component contains in theory 1.77 bugs.<br />
+<br />
+            * Calculation is based on number of operators, operands, cyclomatic complexity<br />
+            * See more details at https://en.wikipedia.org/wiki/Halstead_complexity_measures<br />
+            *  testsuites has dependency to this class.<br />
+<br />
+            Maybe you should check your unit tests for this class.</div>
+
+                                            </div>
+                                                                                    <div class="violation">
+                                                <div class="name">
+                                                    Too long                                                    <span
+                                                        class="badge level level-information">information</span>
+
+                                                </div>
+                                                <div
+                                                    class="description">            This class looks really long.<br />
+<br />
+            * Class has 229 logical lines of code<br />
+            * Class has 261 lines of code<br />
+<br />
+            Maybe your class should not exceed 200 lines of logical code</div>
+
+                                            </div>
+                                                                            </div>
+                                </td>
+
+                                <td valign="top">
+                                                                            <span
+                                            class="badge level level-error"> Too complex class code</span>
+                                                                            <span
+                                            class="badge level level-error"> Too complex method code</span>
+                                                                            <span
+                                            class="badge level level-warning"> Probably bugged</span>
+                                                                            <span
+                                            class="badge level level-information"> Too long</span>
+                                                                    </td>
+                            </tr>
+                        
+                            <tr>
+                                <td>
+                                    <a onclick="return toggle('bloc-69275454eda3d7.99149967');">
                                         <span class="path">App\Command\DatabaseSyncFixCommand</span>
                                     </a>
-                                    <div class="violation-list" id="bloc-690bd733a8b388.04667536">
+                                    <div class="violation-list" id="bloc-69275454eda3d7.99149967">
                                                                                     <div class="violation">
                                                 <div class="name">
                                                     Too complex method code                                                    <span
@@ -180,10 +292,10 @@
                         
                             <tr>
                                 <td>
-                                    <a onclick="return toggle('bloc-690bd733a8b4f7.30382368');">
+                                    <a onclick="return toggle('bloc-69275454eda559.97121590');">
                                         <span class="path">App\Command\ShowDatabasePathCommand</span>
                                     </a>
-                                    <div class="violation-list" id="bloc-690bd733a8b4f7.30382368">
+                                    <div class="violation-list" id="bloc-69275454eda559.97121590">
                                                                                     <div class="violation">
                                                 <div class="name">
                                                     Too complex method code                                                    <span
@@ -209,10 +321,10 @@
                         
                             <tr>
                                 <td>
-                                    <a onclick="return toggle('bloc-690bd733a8b5d6.94941467');">
+                                    <a onclick="return toggle('bloc-69275454eda681.88439585');">
                                         <span class="path">App\Command\SyncDatabaseCommand</span>
                                     </a>
-                                    <div class="violation-list" id="bloc-690bd733a8b5d6.94941467">
+                                    <div class="violation-list" id="bloc-69275454eda681.88439585">
                                                                                     <div class="violation">
                                                 <div class="name">
                                                     Too complex method code                                                    <span
@@ -253,6 +365,37 @@
                                             class="badge level level-warning"> Probably bugged</span>
                                                                     </td>
                             </tr>
+                        
+                            <tr>
+                                <td>
+                                    <a onclick="return toggle('bloc-69275454eda814.13855605');">
+                                        <span class="path">App\Blackjack\Game</span>
+                                    </a>
+                                    <div class="violation-list" id="bloc-69275454eda814.13855605">
+                                                                                    <div class="violation">
+                                                <div class="name">
+                                                    Probably bugged                                                    <span
+                                                        class="badge level level-warning">warning</span>
+
+                                                </div>
+                                                <div
+                                                    class="description">            This component contains in theory 0.52 bugs.<br />
+<br />
+            * Calculation is based on number of operators, operands, cyclomatic complexity<br />
+            * See more details at https://en.wikipedia.org/wiki/Halstead_complexity_measures<br />
+            *  testsuites has dependency to this class.<br />
+<br />
+            Maybe you should check your unit tests for this class.</div>
+
+                                            </div>
+                                                                            </div>
+                                </td>
+
+                                <td valign="top">
+                                                                            <span
+                                            class="badge level level-warning"> Probably bugged</span>
+                                                                    </td>
+                            </tr>
                                             </tbody>
                 </table>
             </div>
@@ -273,10 +416,10 @@
                     
                             <tr>
                                 <td>
-                                    <a onclick="return toggle('bloc-690bd733a8b7d');">
+                                    <a onclick="return toggle('bloc-69275454eda9a');">
                                         <span class="path">App\Card</span>
                                     </a>
-                                    <div class="violation-list" id="bloc-690bd733a8b7d">
+                                    <div class="violation-list" id="bloc-69275454eda9a">
                                                                                     <div class="violation">
                                                 <div class="name">
                                                     Stable Abstractions Principle                                                    <span
@@ -300,10 +443,37 @@
                         
                             <tr>
                                 <td>
-                                    <a onclick="return toggle('bloc-690bd733a8b92');">
+                                    <a onclick="return toggle('bloc-69275454edab1');">
                                         <span class="path">App\Entity</span>
                                     </a>
-                                    <div class="violation-list" id="bloc-690bd733a8b92">
+                                    <div class="violation-list" id="bloc-69275454edab1">
+                                                                                    <div class="violation">
+                                                <div class="name">
+                                                    Stable Abstractions Principle                                                    <span
+                                                            class="badge level level-warning">warning</span>
+
+                                                </div>
+                                                <div
+                                                        class="description">            Packages should be either abstract and stable or concrete and instable.<br />
+<br />
+            This package is instable and abstract.</div>
+
+                                            </div>
+                                                                            </div>
+                                </td>
+
+                                <td valign="top">
+                                                                            <span
+                                                class="badge level level-warning"> Stable Abstractions Principle</span>
+                                                                    </td>
+                            </tr>
+                        
+                            <tr>
+                                <td>
+                                    <a onclick="return toggle('bloc-69275454edabf');">
+                                        <span class="path">App\Blackjack</span>
+                                    </a>
+                                    <div class="violation-list" id="bloc-69275454edabf">
                                                                                     <div class="violation">
                                                 <div class="name">
                                                     Stable Abstractions Principle                                                    <span
@@ -370,7 +540,7 @@
                             <path d="M0 0h24v24H0z" fill="none">
                             <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z">
                         </svg>
-                        Violations (8)
+                        Violations (15)
                     </a>
                 </li>
                                     <li>

@@ -6,12 +6,17 @@
   "exclude": [
     "vendor",
     "var",
-    "tests"
+    "tests",
+    "proj",
+    "public"
   ],
   "report": {
-    "html": "docs/phpmetrics"
+    "html": "docs/metrics"
   },
   "plugins": {
     "git": false
-  }
+  },
+  "includes": [
+    "src/Proj"
+  ]
 }
