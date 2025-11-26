@@ -1,0 +1,46 @@
+{# filepath: \\wsl.localhost\Ubuntu\home\hani_awa\dbwebb-kurser\mvc\me\report\templates\blackjack\index.html.twig #}
+{% extends "base.html.twig" %}
+
+{% block title %}Blackjack{% endblock %}
+
+{% block body %}
+<div class="blackjack-game">
+    <h1>Blackjack</h1>
+    <p>
+        Detta är Black Jack-ingången i samma applikation som Game 21. Du kan starta spelet,
+        och all spel-logik återanvänder de existerande Game 21-rutterna (init / hit / stand / reset).
+    </p>
+
+    <h2>Regler (kortfattat)</h2>
+    <ul>
+        <li>Målet: Kom så nära 21 som möjligt utan att gå över.</li>
+        <li>Kort 2–10 = valör, Klädda = 10, Ess = 1 eller 14 (optimerat automatiskt).</li>
+        <li>Hit = ta kort, Stand = stanna, Bust > 21 = förlust.</li>
+        <li>Dealern drar tills minst 17.</li>
+        <li>Lika resultat gynnar dealern (push => dealer vinner i denna version).</li>
+    </ul>
+
+    <form method="post" action="{{ path('blackjack') }}" style="margin-top:1rem">
+        <button class="btn" type="submit" name="action" value="start">Starta Black Jack</button>
+    </form>
+
+    <p style="margin-top:1.5rem">
+        Redan i gång? Fortsätt via:
+        <a class="btn" href="{{ path('game_play') }}">Öppna Pågående Parti</a>
+        <a class="btn" href="{{ path('game_doc') }}">Dokumentation</a>
+    </p>
+
+    <hr style="margin:2rem 0">
+
+    <h3>Snabbkommandon (POST via detta formulär)</h3>
+    <form method="post" action="{{ path('blackjack') }}" style="display:flex;flex-wrap:wrap;gap:.6rem">
+        <button class="btn" name="action" value="hit" type="submit">Hit</button>
+        <button class="btn" name="action" value="stand" type="submit">Stand</button>
+        <button class="btn" name="action" value="new" type="submit">Nytt spel</button>
+    </form>
+
+    <p style="margin-top:1rem;font-size:.85rem;color:#666">
+        Obs: Den här sidan är separat från originalet Game 21 landing och ersätter tidigare redirect.
+    </p>
+</div>
+{% endblock %}

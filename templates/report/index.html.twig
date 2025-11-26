@@ -94,11 +94,38 @@
     
     <section id="kmom06" class="report-section">
         <h2>Kmom06</h2>
-        <p>Coming soon...</p>
+        <p>Under arbetet med projektet stötte jag på flera problem med utvecklingsverktyg och kodkvalitet. Jag hade först problem med att installera PHP CS Fixer på grund av konflikter med Symfony-versionen, men genom att installera en kompatibel version kunde jag fixa koden automatiskt.
+        PHPUnit-testen gav initialt några fel som jag åtgärdade genom att uppdatera koden enligt testkraven. 
+        PHPDoc saknades och beroenden installerades korrekt via Composer. Scrutinizer och PHP Metrics rapporterade problem med versioner, vilket jag löste genom att använda en stabil version av phpmetrics.
+        Jag fixade även felaktiga radslut och varningar i tester och klass-importer enligt kodstandard. Projektet är nu kompatibelt med PHP CS Fixer, PHPUnit och Scrutinizer och följer korrekt kodstandard.</p>
     </section>
     
     <section id="kmom10" class="report-section">
         <h2>Kmom10</h2>
-        <p>Coming soon...</p>
-    </section>
+        <p>## Redovisning av krav</p>
+
+        <p>### Krav 1-3: Grundläggande spel och webbplats</p>
+
+        <p>Jag började med att bygga upp grunden för webbplatsen med landningssida och "Om"-sida. För själva spelet Blackjack skapade jag klasser för kort, kortlek och hand som jag återanvände från tidigare kursmoment men förbättrade strukturen på. Jag lade till en `Game`-klass som håller koll på spelets tillstånd, vems tur det är och vem som vunnit. Det var lite klurigt att få till logiken för ess (1 eller 11) men jag löste det genom en metod som räknar om värdet dynamiskt. Jag använde sessioner för att spara spelet mellan sidladdningar så att man inte tappar bort sina kort. Designen gjorde jag enkel och tydlig så att man lätt ser vad som händer.</p>
+
+        <p>### Krav 4: Smarta motståndare / Banken</p>
+
+        <p>För att göra banken lite smartare än att bara dra kort slumpmässigt implementerade jag en enkel AI-logik. Banken stannar alltid på 17 eller högre, vilket är standardregler för Blackjack. Jag lade in denna logik i `Game`-klassen så att när spelaren klickar på "Stanna", tar banken över och spelar sin hand automatiskt tills den antingen vinner, blir tjock eller stannar. Det krävdes lite testande för att se till att banken inte fuskade eller gjorde konstiga drag. Nu känns det som att man spelar mot en riktig dealer.</p>
+
+        <p>### Krav 5: Satsningar och spelkonto</p>
+
+        <p>Jag lade till funktionalitet för att kunna satsa pengar (låtsaspengar) i spelet. Jag skapade en enkel hantering i sessionen som håller koll på spelarens saldo. Innan varje runda får man välja hur mycket man vill satsa via ett formulär. Om man vinner får man dubbla insatsen tillbaka, och vid Blackjack får man 2.5 gånger pengarna. Om saldot tar slut har jag lagt till en knapp för att återställa pengarna så man kan fortsätta spela. Det var roligt att se hur spelet blev mer spännande när det fanns en insats med i bilden.</p>
+
+        <p>### Krav 6: Databas och historik</p>
+
+        <p>För att spara historik över spelade omgångar kopplade jag in en SQLite-databas via Doctrine ORM. Jag skapade en entitet `GameResult` som sparar vem som vann, datum och hur mycket som satsades. Efter varje avslutad runda sparas resultatet ner i databasen. Jag skapade sedan en separat sida där man kan se en tabell över de senaste 10 spelen. Det var lite struligt i början med att få Doctrine att fungera korrekt med migrationer, men efter att ha läst dokumentationen löste det sig. Det ger en bra överblick över hur det har gått i spelet.</p>
+
+        <p>## Om projektet</p>
+
+        <p>Projektet var både roligt och utmanande. Det svåraste var nog att få ihop alla delar med MVC-strukturen och se till att koden inte blev för rörig i kontrollerna. Jag försökte flytta så mycket logik som möjligt till klasserna i `src/Blackjack` för att hålla kontrollerna "smala". Det tog lite längre tid än jag trodde att fixa alla enhetstester och få upp kodtäckningen, men det var lärorikt. Ibland fastnade jag på småfel i Twig eller sessionhanteringen, men oftast gick det att lösa genom att felsöka steg för steg. Överlag tycker jag det var ett rimligt projekt för kursen då det knyter ihop allt vi lärt oss.</p>
+
+        <p>## Om kursen</p>
+
+        <p>Jag tycker kursen har varit väldigt lärorik och bra upplagd. Materialet har varit tydligt och övningarna har hjälpt mig att förstå hur moderna PHP-ramverk fungerar. Handledningen har varit bra, och jag har fått snabba svar när jag kört fast. Det enda jag kan tycka var lite tungt var mängden konfiguration i början med alla verktyg (linters, tester, metrics), men nu i efterhand ser jag nyttan med det. Jag skulle absolut rekommendera kursen till andra som vill lära sig mer om objektorienterad PHP och MVC. På en skala 1-10 ger jag kursen en stark 8.</p>
+        </section>
 {% endblock %}
