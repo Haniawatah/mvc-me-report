@@ -1,0 +1,7 @@
+{
+    "name": "dbwebb/phpmetrics",
+    "description": "Install phpmetrics",
+    "require": {
+        "phpmetrics/phpmetrics": "^2.0"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "name": "dbwebb/phpmd",
+    "description": "Install phpmd",
+    "require": {
+        "phpmd/phpmd": "^2.0"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "name": "dbwebb/phpstan",
+    "description": "Install phpstan",
+    "require": {
+        "phpstan/phpstan": "^1.0"
+    }
+}
