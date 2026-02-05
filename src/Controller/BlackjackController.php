@@ -18,21 +18,20 @@ class BlackjackController extends AbstractController
     {
         $session = $request->getSession();
 
-        // Profile: name + bank
-        $profile = $session->get('blackjack_profile'); // ['name' => string, 'bank' => int]
+        $profile = $session->get('blackjack_profile');
         $errors = [];
 
-        // Save profile
+        // Save or update player profile
         if ($request->isMethod('POST') && (string)$request->request->get('action') === 'save_profile') {
             $name = trim((string) $request->request->get('player_name', ''));
             $bank = (int) ($request->request->get('bank', 100));
             $bank = max(1, $bank);
             if ($name === '') {
-                $errors[] = 'Ange ett spelarnamn.';
+                $errors[] = 'Du måste ange ett spelarnamn.';
             } else {
                 $profile = ['name' => $name, 'bank' => $bank];
                 $session->set('blackjack_profile', $profile);
-                // Reset game state when setting profile
+                // Clear old game data
                 $session->remove('blackjack');
                 $session->remove('blackjack_bets');
                 $session->remove('blackjack_hands');
@@ -48,14 +47,13 @@ class BlackjackController extends AbstractController
             $game = null;
         }
 
-        // Read stored hands and bets
         $storedHands = (int) ($session->get('blackjack_hands') ?? 1);
-        $bets = $session->get('blackjack_bets') ?? []; // array<int,int>
+        $bets = $session->get('blackjack_bets') ?? [];
 
         if ($request->isMethod('POST')) {
             $action = (string) $request->request->get('action', '');
 
-            // NEW: allow resetting back to profile menu at any time
+            // Reset to main menu
             if ($action === 'reset_profile') {
                 $session->remove('blackjack_profile');
                 $session->remove('blackjack');
@@ -67,15 +65,13 @@ class BlackjackController extends AbstractController
                 $profile = null;
                 $game = null;
             } elseif ($action !== 'save_profile' && !$profile) {
-                // Require profile for all game actions except saving/resetting profile
-                $errors[] = 'Ange spelarnamn för att börja spela.';
+                $errors[] = 'Du måste skapa en profil först.';
             } else {
                 if ($action === 'start') {
-                    // Start with hands and bets, deduct upfront
+                    // Start new game
                     $hands = max(1, min(3, (int) ($request->request->get('hands') ?? 1)));
                     $session->set('blackjack_hands', $hands);
 
-                    // Collect bets[0..hands-1]
                     $incomingBets = (array) $request->request->all('bets');
                     $roundBets = [];
                     $sum = 0;
@@ -87,7 +83,7 @@ class BlackjackController extends AbstractController
                     }
 
                     if ($profile['bank'] < $sum) {
-                        $errors[] = 'Otillräckligt saldo för insatserna.';
+                        $errors[] = 'Du har inte råd med de insatserna.';
                     } else {
                         $profile['bank'] -= $sum;
                         $session->set('blackjack_profile', $profile);
@@ -97,7 +93,7 @@ class BlackjackController extends AbstractController
                         $session->set('blackjack', $game);
                     }
                 } elseif ($action === 'set_hands') {
-                    // Change hands and start fresh round with minimal bets (or reuse previous first bet)
+                    // Change number of hands
                     $hands = max(1, min(3, (int) ($request->request->get('hands') ?? 1)));
                     $session->set('blackjack_hands', $hands);
 
@@ -113,7 +109,7 @@ class BlackjackController extends AbstractController
                     }
 
                     if ($profile['bank'] < $sum) {
-                        $errors[] = 'Otillräckligt saldo för antal händer/insatser.';
+                        $errors[] = 'Inte tillräckligt med pengar för så många händer.';
                     } else {
                         $profile['bank'] -= $sum;
                         $session->set('blackjack_profile', $profile);
@@ -123,7 +119,6 @@ class BlackjackController extends AbstractController
                         $session->set('blackjack', $game);
                     }
                 } elseif ($game instanceof Game) {
-                    // Game actions
                     switch ($action) {
                         case 'hit':
                             $game->hit();
@@ -132,20 +127,18 @@ class BlackjackController extends AbstractController
                             $game->stand();
                             break;
                         case 'split':
-                            // Check enough bank to duplicate current bet
                             $pre = $game->toArray();
                             $idx = (int) $pre['current'];
                             $canSplit = (bool) ($pre['players'][$idx]['canSplit'] ?? false);
                             if (!$canSplit) {
-                                // ignore silently
+                                // Can't split this hand
                             } else {
                                 $need = (int) ($bets[$idx] ?? 1);
                                 if (($profile['bank'] ?? 0) < $need) {
-                                    $errors[] = 'Otillräckligt saldo för split.';
+                                    $errors[] = 'Du har inte råd att splitta just nu.';
                                 } else {
                                     $profile['bank'] -= $need;
                                     $session->set('blackjack_profile', $profile);
-                                    // Duplicate bet next to current hand
                                     array_splice($bets, $idx + 1, 0, [$need]);
                                     $session->set('blackjack_bets', $bets);
                                     $game->split();
@@ -153,7 +146,6 @@ class BlackjackController extends AbstractController
                             }
                             break;
                         case 'new':
-                            // Start new round with storedHands and minimal bets same size
                             $hands = max(1, min(3, (int) ($session->get('blackjack_hands') ?? 1)));
                             $roundBets = [];
                             $sum = 0;
@@ -164,7 +156,7 @@ class BlackjackController extends AbstractController
                                 $sum += $b;
                             }
                             if ($profile['bank'] < $sum) {
-                                $errors[] = 'Otillräckligt saldo för en ny runda. Justera händer/insats.';
+                                $errors[] = 'För lite pengar kvar. Ändra antal händer eller insatser.';
                             } else {
                                 $profile['bank'] -= $sum;
                                 $session->set('blackjack_profile', $profile);
@@ -173,16 +165,13 @@ class BlackjackController extends AbstractController
                                 $game = new Game($hands);
                             }
                             break;
-                        default:
-                            // noop
-                            break;
                     }
                     $session->set('blackjack', $game);
                 }
             }
         }
 
-        // Build state and settle if finished
+        // Check if round is finished and pay out
         $state = $game instanceof Game ? $game->toArray() : null;
 
         if ($game instanceof Game && $state && ($state['finished'] ?? false)) {
@@ -194,18 +183,16 @@ class BlackjackController extends AbstractController
                 $roundBetSum = 0;
                 foreach ($bets as $b) { $roundBetSum += (int)$b; }
 
-                $delta = 0; // total returned to player (payout)
+                $delta = 0;
                 foreach ($results as $i => $r) {
                     $bet = (int) ($bets[$i] ?? 0);
                     if ($bet <= 0) { continue; }
 
-                    // Per-hand info to decide BJ 3:2 payout
                     $hand = $state['players'][$i] ?? [];
                     $isBj = !empty($hand['bj']) && isset($hand['cards']) && is_array($hand['cards']) && count($hand['cards']) === 2;
 
-                    // Compute returned payout (we already deducted bet(s) upfront)
                     if (!empty($r['win'])) {
-                        // blackjack pays 3:2 (return bet + 1.5*bet = 2.5x total)
+                        // Blackjack pays 3:2
                         $returned = $isBj ? (int) floor($bet * 2.5) : ($bet * 2);
                     } elseif (!empty($r['push'])) {
                         $returned = $bet;
@@ -215,7 +202,6 @@ class BlackjackController extends AbstractController
                     $delta += $returned;
                 }
 
-                // Add payout to bank
                 $profile = $session->get('blackjack_profile') ?? ['name' => '', 'bank' => 0];
                 if ($delta > 0) {
                     $profile['bank'] = (int)$profile['bank'] + $delta;
@@ -223,11 +209,10 @@ class BlackjackController extends AbstractController
                 }
                 $session->set('blackjack_settled', true);
 
-                // Round net relative to upfront wager
                 $lastNet = $delta - $roundBetSum;
                 $session->set('blackjack_last_net', $lastNet);
 
-                // Update stats: rounds, results and money aggregates
+                // Track stats
                 $stats = $session->get('blackjack_stats') ?? [
                     'rounds' => 0, 'wins' => 0, 'losses' => 0, 'pushes' => 0,
                     'bj' => 0, 'busts' => 0, 'splits' => 0,
@@ -251,7 +236,6 @@ class BlackjackController extends AbstractController
                 $stats['pushes']  = (int)$stats['pushes']  + $pushes;
                 $stats['bj']      = (int)$stats['bj']      + $bjCount;
                 $stats['busts']   = (int)$stats['busts']   + $bustCount;
-                // money aggregates
                 $stats['wagered'] = (int)$stats['wagered'] + (int)$roundBetSum;
                 $stats['returned']= (int)$stats['returned']+ (int)$delta;
                 $stats['net']     = (int)$stats['net']     + (int)$lastNet;
@@ -260,21 +244,20 @@ class BlackjackController extends AbstractController
             }
         }
 
-        // Expose variables to the PHP view
+        // Pass data to view
         ob_start();
         $stateVar = $state;
         $profileVar = $profile;
         $betsVar = $session->get('blackjack_bets') ?? [];
         $errorsVar = $errors;
-        // NEW: expose stats, last net and bank-empty flag
         $statsVar = $session->get('blackjack_stats') ?? [
             'rounds' => 0, 'wins' => 0, 'losses' => 0, 'pushes' => 0,
-            'bj' => 0, 'busts' => 0, 'splits' => 0,
+            'bj' => 0, 'busts' => 0,
             'wagered' => 0, 'returned' => 0, 'net' => 0
         ];
         $lastNetVar = $session->get('blackjack_last_net');
         $bankEmptyVar = (bool) ((int)($profile['bank'] ?? 0) <= 0);
-        $baseVar = $request->getBasePath();               // e.g. /~maix24/dbwebb-kurser/mvc/me/report/public
+        $baseVar = $request->getBasePath();
         $route = ($baseVar ?? '') . '/blackjack';
         include __DIR__ . '/../../proj/blackjack/index.php';
         $html = ob_get_clean();

@@ -1,0 +1,65 @@
+{% extends 'proj/proj_base.html.twig' %}
+
+{% block title %}About - Black Jack{% endblock %}
+
+{% block body %}
+    <div class="proj-container">
+        <h1 style="color: var(--proj-primary);">About This Project</h1>
+
+        <section style="margin: 2rem 0;">
+            <h2 style="color: var(--proj-secondary);">What is this?</h2>
+            <p>
+                This is my final project for the MVC course at BTH. I built a Black Jack game 
+                using PHP and Symfony to demonstrate object-oriented programming and proper 
+                code testing.
+            </p>
+        </section>
+
+        <section style="margin: 2rem 0;">
+            <h2 style="color: var(--proj-secondary);">How it works</h2>
+            <p>
+                The game lets you play 1-3 hands simultaneously against the dealer. You can 
+                hit, stand, and even split pairs if you get two cards with the same value.
+            </p>
+            <p>
+                Everything runs through sessions, so you can leave and come back to continue 
+                your game. The dealer follows standard Black Jack rules and stands on 17+.
+            </p>
+        </section>
+
+        <section style="margin: 2rem 0;">
+            <h2 style="color: var(--proj-secondary);">Technical Stack</h2>
+            <ul style="line-height: 2;">
+                <li><strong>PHP 8.3</strong> and <strong>Symfony 6.3</strong></li>
+                <li><strong>Object-Oriented Design</strong> - Card, Deck, Hand, and Game classes</li>
+                <li><strong>PHPUnit Testing</strong> - 91% code coverage with 84 tests</li>
+                <li><strong>Scrutinizer CI</strong> - Automated code quality checks</li>
+            </ul>
+        </section>
+
+        <section style="margin: 2rem 0;">
+            <h2 style="color: var(--proj-secondary);">The Classes</h2>
+            <ul style="line-height: 2;">
+                <li><strong>Card</strong> - Represents a single playing card</li>
+                <li><strong>Deck</strong> - Manages the 52-card deck with shuffle</li>
+                <li><strong>Hand</strong> - Handles player hands, scoring, and split logic</li>
+                <li><strong>Game</strong> - Main game controller for players and dealer</li>
+            </ul>
+        </section>
+
+        <section style="margin: 2rem 0;">
+            <h2 style="color: var(--proj-secondary);">Documentation</h2>
+            <ul style="line-height: 2;">
+                <li><a href="https://github.com/haniawatah/mvc-me-report" target="_blank" style="color: var(--proj-secondary);">GitHub Repository</a></li>
+                <li><a href="/docs/api/" target="_blank" style="color: var(--proj-secondary);">API Documentation (PhpDoc)</a></li>
+                <li><a href="/docs/metrics/" target="_blank" style="color: var(--proj-secondary);">Code Metrics</a></li>
+                <li><a href="/docs/coverage/" target="_blank" style="color: var(--proj-secondary);">Test Coverage Report</a></li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{{ path('proj_play') }}" class="proj-btn">Play the Game</a>
+            <a href="{{ path('proj_index') }}" class="proj-btn proj-btn-secondary">Back to Home</a>
+        </div>
+    </div>
+{% endblock %}

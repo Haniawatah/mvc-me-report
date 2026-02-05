@@ -4,46 +4,31 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Repository\BookRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Connection; // ADD THIS if missing
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Session\SessionInterface; // ADD THIS
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-#[Route('/library')]
 class LibraryController extends AbstractController
 {
-    #[Route('/', name: 'library_index', methods: ['GET'])]
+    // ÄNDRA FRÅN /proj TILL /library
+    #[Route('/library', name: 'library_index')]
     public function index(BookRepository $bookRepository): Response
     {
-        try {
-            $books = $bookRepository->findAll();
-            $errorMessage = null;
-
-            // Don't call debugDatabase directly in the main index method
-            // to avoid errors affecting the main page
-            $dbInfo = [
-                'connection' => 'active',
-                'book_count' => count($books)
-            ];
-        } catch (\Exception $e) {
-            // If there's a database error, just show an empty list
-            $books = [];
-            $errorMessage = 'Could not connect to database. Some features may be limited.';
-            $dbInfo = ['connection' => 'failed', 'error' => $e->getMessage()];
-
-            // More specific error message for development environment
-            if ($this->getParameter('kernel.environment') === 'dev') {
-                $errorMessage .= ' Error: ' . $e->getMessage();
-            }
-        }
-
+        $books = $bookRepository->findAll();
         return $this->render('library/index.html.twig', [
             'books' => $books,
-            'error_message' => $errorMessage,
-            'db_info' => $dbInfo
         ]);
+    }
+
+    #[Route('/library/about', name: 'library_about')]
+    public function about(): Response
+    {
+        return $this->render('library/about.html.twig');
     }
 
     #[Route('/new', name: 'library_new', methods: ['GET', 'POST'])]

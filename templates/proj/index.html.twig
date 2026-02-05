@@ -1,0 +1,57 @@
+{% extends 'proj/proj_base.html.twig' %}
+
+{% block title %}Black Jack - Home{% endblock %}
+
+{% block body %}
+    <div class="proj-container">
+        <h1 style="text-align: center; color: var(--proj-primary);">🃏 Welcome to Black Jack</h1>
+        
+        <div style="text-align: center; margin: 2rem 0;">
+            <p style="font-size: 1.2rem; line-height: 1.8;">
+                Test your luck and skill in this classic casino game! 
+                Play against the dealer and try to get as close to 21 as possible without going over.
+            </p>
+        </div>
+
+        <div class="game-table" style="text-align: center;">
+            <h2 style="color: var(--proj-gold); margin-bottom: 1.5rem;">Quick Rules</h2>
+            <ul style="list-style: none; font-size: 1.1rem; line-height: 2; color: white;">
+                <li>🎯 Get as close to 21 as possible</li>
+                <li>🅰️ Aces count as 1 or 11</li>
+                <li>👑 Face cards are worth 10</li>
+                <li>💥 Over 21 = Bust (you lose)</li>
+                <li>🏦 Dealer stands on 17+</li>
+            </ul>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 3rem 0;">
+            <div>
+                <h3 style="color: var(--proj-primary);">✨ Features</h3>
+                <ul style="line-height: 2;">
+                    <li>Play 1-3 hands at once</li>
+                    <li>Split pairs functionality</li>
+                    <li>Track your balance</li>
+                    <li>Session-based saving</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--proj-primary);">🛠️ Tech Stack</h3>
+                <ul style="line-height: 2;">
+                    <li>Symfony 6.3 + PHP 8.3</li>
+                    <li>91% test coverage</li>
+                    <li>Object-oriented design</li>
+                    <li>Scrutinizer CI/CD</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{{ path('proj_play') }}" class="proj-btn" style="margin: 0 1rem;">
+                🎮 Start Playing
+            </a>
+            <a href="{{ path('proj_about') }}" class="proj-btn proj-btn-secondary" style="margin: 0 1rem;">
+                📖 Learn More
+            </a>
+        </div>
+    </div>
+{% endblock %}

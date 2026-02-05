@@ -8,9 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
-    /**
-     * Test initializing a new game
-     */
+    // Testa starta nytt spel
     public function testInit(): void
     {
         $game = new Game();
@@ -22,9 +20,7 @@ class GameTest extends TestCase
         $this->assertEmpty($game->getResult());
     }
 
-    /**
-     * Test player hit action
-     */
+    // Spelaren tar kort
     public function testPlayerHit(): void
     {
         $game = new Game();
@@ -36,18 +32,15 @@ class GameTest extends TestCase
         $this->assertEquals($initialCount + 1, $game->getPlayerHand()->getCount());
     }
 
-    /**
-     * Test player bust scenario
-     */
+    // Spelaren blir tjock
     public function testPlayerBust(): void
     {
-        // Create a custom game class that will force a player bust
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getPlayerScore'])
             ->getMock();
 
         $game->method('getPlayerScore')
-            ->willReturn(22); // Player always has 22 (bust)
+            ->willReturn(22); // Spelaren har 22 (tjock)
 
         $game->init();
         $game->playerHit();
@@ -56,12 +49,9 @@ class GameTest extends TestCase
         $this->assertEquals('dealer_wins', $game->getResult());
     }
 
-    /**
-     * Test player gets 21
-     */
+    // Spelaren får 21
     public function testPlayerGets21(): void
     {
-        // Create a game that will simulate player getting exactly 21
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getPlayerScore', 'playerStand'])
             ->getMock();
@@ -69,7 +59,7 @@ class GameTest extends TestCase
         $game->method('getPlayerScore')
             ->willReturn(21);
 
-        // Verify playerStand is called when score hits 21
+        // Kolla att playerStand anropas när man får 21
         $game->expects($this->once())
             ->method('playerStand');
 
@@ -77,9 +67,7 @@ class GameTest extends TestCase
         $game->playerHit();
     }
 
-    /**
-     * Test player stand action
-     */
+    // Spelaren stannar
     public function testPlayerStand(): void
     {
         $game = new Game();
@@ -89,21 +77,18 @@ class GameTest extends TestCase
         $this->assertEquals('game_over', $game->getGameState());
         $this->assertNotEmpty($game->getResult());
 
-        // Dealer should have at least 1 card
+        // Dealern ska ha minst 1 kort
         $this->assertGreaterThanOrEqual(1, $game->getDealerHand()->getCount());
     }
 
-    /**
-     * Test dealer drawing until 17
-     */
+    // Dealern drar kort tills 17
     public function testDealerDrawsUntil17(): void
     {
-        // Create a game where dealer starts with low score but stops at 17
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getDealerScore'])
             ->getMock();
 
-        // First call returns 10, second call returns 16, third returns 17
+        // Först 10, sen 16, sen 17
         $game->expects($this->exactly(3))
             ->method('getDealerScore')
             ->willReturnOnConsecutiveCalls(10, 16, 17);
@@ -112,25 +97,20 @@ class GameTest extends TestCase
         $initialDealerCards = $game->getDealerHand()->getCount();
         $game->playerStand();
 
-        // Should have drawn 2 more cards to reach 17
+        // Ska ha dragit 2 kort för att nå 17
         $this->assertEquals($initialDealerCards + 2, $game->getDealerHand()->getCount());
     }
 
-    /**
-     * Test dealer bust scenario
-     */
+    // Dealern blir tjock
     public function testDealerBust(): void
     {
-        // Create a game where dealer always busts
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getDealerScore', 'getPlayerScore'])
             ->getMock();
 
-        // Dealer always has 22 (bust)
         $game->method('getDealerScore')
-            ->willReturn(22);
+            ->willReturn(22); // Dealern tjock
 
-        // Player has a valid score
         $game->method('getPlayerScore')
             ->willReturn(18);
 
@@ -141,21 +121,16 @@ class GameTest extends TestCase
         $this->assertEquals('player_wins', $game->getResult());
     }
 
-    /**
-     * Test dealer wins scenario
-     */
+    // Dealern vinner
     public function testDealerWins(): void
     {
-        // Create a game where dealer has higher score
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getDealerScore', 'getPlayerScore'])
             ->getMock();
 
-        // Dealer has 20
         $game->method('getDealerScore')
             ->willReturn(20);
 
-        // Player has 18
         $game->method('getPlayerScore')
             ->willReturn(18);
 
@@ -166,21 +141,16 @@ class GameTest extends TestCase
         $this->assertEquals('dealer_wins', $game->getResult());
     }
 
-    /**
-     * Test player wins scenario
-     */
+    // Spelaren vinner
     public function testPlayerWins(): void
     {
-        // Create a game where player has higher score
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getDealerScore', 'getPlayerScore'])
             ->getMock();
 
-        // Dealer has 17
         $game->method('getDealerScore')
             ->willReturn(17);
 
-        // Player has 19
         $game->method('getPlayerScore')
             ->willReturn(19);
 
@@ -191,17 +161,13 @@ class GameTest extends TestCase
         $this->assertEquals('player_wins', $game->getResult());
     }
 
-    /**
-     * Test tie scenario (dealer wins on tie)
-     */
+    // Lika (dealern vinner vid lika)
     public function testTieScenario(): void
     {
-        // Create a game with tied scores
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getDealerScore', 'getPlayerScore'])
             ->getMock();
 
-        // Both have 19
         $game->method('getDealerScore')
             ->willReturn(19);
         $game->method('getPlayerScore')
@@ -211,12 +177,10 @@ class GameTest extends TestCase
         $game->playerStand();
 
         $this->assertEquals('game_over', $game->getGameState());
-        $this->assertEquals('dealer_wins', $game->getResult(), 'Dealer should win on tie');
+        $this->assertEquals('dealer_wins', $game->getResult(), 'Dealern ska vinna vid lika');
     }
 
-    /**
-     * Test game state checks
-     */
+    // Kolla spelets status
     public function testGameStateChecks(): void
     {
         $game = new Game();
@@ -229,70 +193,63 @@ class GameTest extends TestCase
         $this->assertTrue($game->isGameOver());
     }
 
-    /**
-     * Test that actions do nothing after game over
-     */
+    // Ingenting ska hända efter spelet är slut
     public function testActionsAfterGameOver(): void
     {
         $game = new Game();
         $game->init();
-        $game->playerStand(); // End the game
+        $game->playerStand(); // Avsluta spelet
 
-        // Get state after game is over
+        // Kolla state efter spelet är slut
         $state = $game->getGameState();
         $playerCards = $game->getPlayerHand()->getCount();
         $dealerCards = $game->getDealerHand()->getCount();
 
-        // Try to perform actions
+        // Försök göra nåt
         $game->playerHit();
         $game->playerStand();
 
-        // Nothing should have changed
+        // Inget ska ha ändrats
         $this->assertEquals($state, $game->getGameState());
         $this->assertEquals($playerCards, $game->getPlayerHand()->getCount());
         $this->assertEquals($dealerCards, $game->getDealerHand()->getCount());
     }
 
-    /**
-     * Test calculation of hand score with face cards
-     */
+    // Räkna poäng med klädda kort
     public function testCalculateHandScore(): void
     {
         $game = new Game();
         $game->init();
 
-        // We need to use reflection to test private method
+        // Använd reflection för att testa privat metod
         $reflector = new \ReflectionClass(Game::class);
         $method = $reflector->getMethod('calculateHandScore');
         $method->setAccessible(true);
 
         $hand = new CardHand();
 
-        // Test with regular number cards
+        // Vanliga kort
         $hand->addCard(new \App\Card\CardGraphic('Hearts', '2', 2));
         $hand->addCard(new \App\Card\CardGraphic('Clubs', '3', 3));
         $this->assertEquals(5, $method->invoke($game, $hand));
 
-        // Add a face card
+        // Lägg till klädda kort
         $hand->addCard(new \App\Card\CardGraphic('Diamonds', 'King', 13));
         $this->assertEquals(15, $method->invoke($game, $hand));
 
-        // Create new hand with Ace
+        // Ny hand med ess
         $aceHand = new CardHand();
         $aceHand->addCard(new \App\Card\CardGraphic('Spades', 'Ace', 14));
-        $this->assertEquals(14, $method->invoke($game, $aceHand)); // Ace counts as 14
+        $this->assertEquals(14, $method->invoke($game, $aceHand)); // Ess är 14
 
-        // Add another card to make Ace worth 1
+        // Lägg till ett kort så ess blir 1
         $aceHand->addCard(new \App\Card\CardGraphic('Hearts', '10', 10));
-        $this->assertEquals(11, $method->invoke($game, $aceHand)); // Ace now counts as 1
+        $this->assertEquals(11, $method->invoke($game, $aceHand)); // Nu är ess 1
     }
 
-    /**
-     * Test game with player starting with 21
-     */
+    // Spelaren börjar med 21
     public function testPlayerStartsWith21(): void
     {
-        // Create a game where player starts with 21
         $game = $this->getMockBuilder(Game::class)
             ->onlyMethods(['getPlayerScore'])
             ->getMock();
@@ -302,7 +259,7 @@ class GameTest extends TestCase
 
         $game->init();
 
-        // Player should automatically stand with 21
+        // Spelaren ska automatiskt stanna vid 21
         $this->assertEquals('game_over', $game->getGameState());
     }
 }

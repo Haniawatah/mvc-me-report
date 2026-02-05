@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1770222994">
+  <project timestamp="1770222994">
+    <file name="/home/hani_awa/dbwebb-kurser/mvc/me/report/src/Proj/Calculator.php">
+      <class name="App\Proj\Calculator" namespace="global">
+        <metrics complexity="5" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="9" coveredelements="9"/>
+      </class>
+      <line num="8" type="method" name="add" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="9" type="method" name="sub" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="10" type="method" name="mul" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="12" type="method" name="div" visibility="public" complexity="2" crap="2" count="2"/>
+      <line num="13" type="stmt" count="2"/>
+      <line num="14" type="stmt" count="1"/>
+      <metrics loc="17" ncloc="15" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="9" coveredelements="9"/>
+    </file>
+    <metrics files="1" loc="17" ncloc="15" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="9" coveredelements="9"/>
+  </project>
+</coverage>

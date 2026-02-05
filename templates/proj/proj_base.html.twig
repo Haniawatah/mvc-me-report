@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Black Jack Game{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/proj.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <header class="proj-header">
+        <nav class="proj-nav">
+            <a href="{{ path('proj_index') }}" class="proj-logo">🃏 Black Jack</a>
+            <ul>
+                <li><a href="{{ path('proj_index') }}">Home</a></li>
+                <li><a href="{{ path('blackjack') }}">Play</a></li>
+                <li><a href="{{ path('proj_about') }}">About</a></li>
+                <li><a href="{{ path('home') }}">← Back to Report</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% for message in app.flashes('success') %}
+            <div class="flash-success">{{ message }}</div>
+        {% endfor %}
+        
+        {% for message in app.flashes('error') %}
+            <div class="flash-error">{{ message }}</div>
+        {% endfor %}
+
+        {% block body %}{% endblock %}
+    </main>
+
+    <footer class="proj-footer">
+        <p>🎲 Black Jack Game - MVC Course Project</p>
+        <p><a href="https://github.com/haniawatah/mvc-me-report" style="color: #ffd700;">GitHub</a></p>
+    </footer>
+
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

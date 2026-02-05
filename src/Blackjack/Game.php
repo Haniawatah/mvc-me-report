@@ -14,6 +14,8 @@ class Game
     private bool $finished = false;
     /** @var array{win:int,lose:int,push:int}|null[] */
     private array $results = [];
+    /** @var array<int, string[]> Track when dealer drew each card */
+    private array $dealerDrawLog = [];
 
     public function __construct(int $hands = 1)
     {
@@ -28,16 +30,25 @@ class Game
 
     private function dealInitial(): void
     {
+        // Deal first card to each player
         foreach ($this->players as $p) { $p->add($this->deck->draw()); }
-        $this->dealer->add($this->deck->draw());
+        $card = $this->deck->draw();
+        $this->dealer->add($card);
+        $this->dealerDrawLog[] = ['Initial deal', $card->label()];
+        
+        // Deal second card to each player
         foreach ($this->players as $p) { $p->add($this->deck->draw()); }
-        $this->dealer->add($this->deck->draw());
+        $card = $this->deck->draw();
+        $this->dealer->add($card);
+        $this->dealerDrawLog[] = ['Initial deal (hidden)', $card->label()];
+        
         $this->results = array_fill(0, count($this->players), null);
         $this->advanceIfDone();
     }
 
     private function advanceIfDone(): void
     {
+        // Move to next hand that can still play
         while ($this->current < count($this->players)) {
             $h = $this->players[$this->current];
             if ($h->isBusted() || $h->stood || $h->isBlackjack()) {
@@ -46,6 +57,7 @@ class Game
             }
             break;
         }
+        // All hands done? Finish dealer and score
         if ($this->current >= count($this->players)) {
             $this->finishDealer();
             $this->scoreResults();
@@ -56,7 +68,9 @@ class Game
     private function finishDealer(): void
     {
         while ($this->dealer->bestScore() < 17) {
-            $this->dealer->add($this->deck->draw());
+            $card = $this->deck->draw();
+            $this->dealer->add($card);
+            $this->dealerDrawLog[] = ['Dealer draws to reach 17', $card->label()];
         }
     }
 
@@ -101,8 +115,8 @@ class Game
         if (!$h->canSplit()) return;
         $cards = $h->cards();
 
-        $h1 = new Hand(); $h1->add($cards[0]); $h1->splitOnce = true;
-        $h2 = new Hand(); $h2->add($cards[1]); $h2->splitOnce = true;
+        $h1 = new Hand(); $h1->add($cards[0]);
+        $h2 = new Hand(); $h2->add($cards[1]);
 
         $this->players[$this->current] = $h1;
         array_splice($this->players, $this->current + 1, 0, [$h2]);
@@ -122,14 +136,17 @@ class Game
     public function toArray(): array
     {
         $dealerCards = array_map(fn(Card $c) => $c->label(), $this->dealer->cards());
-        $hide = !$this->finished && count($dealerCards) >= 2;
-        if ($hide) $dealerCards[1] = '??';
+        if (!$this->finished && count($dealerCards) >= 2) {
+            $dealerCards[1] = '??';
+        }
+        
         return [
             'finished' => $this->finished,
             'current' => $this->current,
             'dealer' => [
                 'cards' => $dealerCards,
-                'score' => $this->finished ? $this->dealer->bestScore() : null
+                'score' => $this->finished ? $this->dealer->bestScore() : null,
+                'drawLog' => $this->finished ? $this->dealerDrawLog : null
             ],
             'players' => array_map(function(Hand $h) {
                 return [

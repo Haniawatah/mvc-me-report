@@ -5,11 +5,11 @@ $state = $stateVar;
 $profile = $profileVar ?? null;
 $bets = $betsVar ?? [];
 $errors = $errorsVar ?? [];
-$stats = $statsVar ?? ['rounds'=>0,'wins'=>0,'losses'=>0,'pushes'=>0,'bj'=>0,'busts'=>0,'splits'=>0,'wagered'=>0,'returned'=>0,'net'=>0];
+$stats = $statsVar ?? ['rounds'=>0,'wins'=>0,'losses'=>0,'pushes'=>0,'bj'=>0,'busts'=>0,'wagered'=>0,'returned'=>0,'net'=>0];
 $lastNet = $lastNetVar ?? null;
 $bankEmpty = (bool)($bankEmptyVar ?? false);
 
-// Ensure public CSS on student server
+// Ensure public CSS on server
 if (isset($baseVar)) {
     echo '<link rel="stylesheet" href="' . htmlspecialchars($baseVar) . '/css/style.css">';
 }
@@ -23,6 +23,28 @@ if (isset($baseVar)) {
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('a[href^="/"]').forEach(function (a) { a.setAttribute('href', fix(a.getAttribute('href'))); });
     document.querySelectorAll('form[action^="/"]').forEach(function (f) { f.setAttribute('action', fix(f.getAttribute('action'))); });
+    
+    // Save scroll position before form submit
+    document.querySelectorAll('form').forEach(function(form) {
+      form.addEventListener('submit', function() {
+        sessionStorage.setItem('blackjack_scroll', window.scrollY.toString());
+      });
+    });
+    
+    // Restore scroll position after page load
+    var savedScroll = sessionStorage.getItem('blackjack_scroll');
+    if (savedScroll) {
+      window.scrollTo(0, parseInt(savedScroll));
+      sessionStorage.removeItem('blackjack_scroll');
+    }
+    
+    // Scroll to active hand if exists
+    var activeHand = document.querySelector('.active-hand');
+    if (activeHand && savedScroll) {
+      setTimeout(function() {
+        activeHand.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
   });
 })();
 </script>
@@ -44,7 +66,7 @@ if (isset($baseVar)) {
   <?php if (!$profile): ?>
     <!-- Profile menu -->
     <section class="blackjack-panel blackjack-start">
-      <h2 style="margin:0 0 .5rem;font-size:1rem;letter-spacing:.3px">Starta med spelarnamn</h2>
+      <h2 style="margin:0 0 .5rem;font-size:1rem;letter-spacing:.3px">Starta med spelarnamn</h2>h2>
       <form method="post" action="<?= htmlspecialchars($route ?? '/blackjack') ?>" class="blackjack-form">
         <label for="player_name">Spelarnamn</label>
         <input id="player_name" name="player_name" type="text" required
@@ -138,7 +160,7 @@ if (isset($baseVar)) {
 
     <!-- Stats panel with money aggregates -->
     <section class="blackjack-panel stats-panel">
-      <h2 style="margin:0;font-size:.95rem;letter-spacing:.3px;text-transform:uppercase">Statistik</h2>
+      <h2 style="margin:0;font-size:.95rem;letter-spacing:.3px;text-transform:uppercase">Spelstatistik</h2>
       <?php
         $total = max(1,(int)$stats['rounds']);
         $winrate = number_format((($stats['wins'] ?? 0)/$total)*100, 1);
@@ -150,7 +172,6 @@ if (isset($baseVar)) {
         <div class="stat-item"><span class="stat-label">Push</span><span class="stat-value"><?= (int)$stats['pushes'] ?></span></div>
         <div class="stat-item"><span class="stat-label">Blackjacks</span><span class="stat-value"><?= (int)$stats['bj'] ?></span></div>
         <div class="stat-item"><span class="stat-label">Bust</span><span class="stat-value"><?= (int)$stats['busts'] ?></span></div>
-        <div class="stat-item"><span class="stat-label">Splits</span><span class="stat-value"><?= (int)$stats['splits'] ?></span></div>
         <div class="stat-item"><span class="stat-label">Winrate</span><span class="stat-value"><?= $winrate ?>%</span></div>
         <div class="stat-item"><span class="stat-label">Omsättning</span><span class="stat-value"><?= (int)($stats['wagered'] ?? 0) ?> kr</span></div>
         <div class="stat-item"><span class="stat-label">Utbetalning</span><span class="stat-value"><?= (int)($stats['returned'] ?? 0) ?> kr</span></div>
@@ -165,8 +186,11 @@ if (isset($baseVar)) {
       <article class="blackjack-panel dealer-panel">
         <h2>Banken</h2>
         <div class="cards-row">
-          <?php foreach ($state['dealer']['cards'] as $c): ?>
-            <span class="card-token"><?= htmlspecialchars($c) ?></span>
+          <?php foreach ($state['dealer']['cards'] as $idx => $c): ?>
+            <div style="display:inline-block;position:relative;margin-right:10px">
+              <span class="card-token"><?= htmlspecialchars($c) ?></span>
+              <span style="position:absolute;top:-8px;left:-8px;background:#f59e0b;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:bold"><?= $idx + 1 ?></span>
+            </div>
           <?php endforeach; ?>
         </div>
         <p class="score-line">
@@ -177,6 +201,17 @@ if (isset($baseVar)) {
             <em>?</em>
           <?php endif; ?>
         </p>
+        
+        <?php if ($state['finished'] && !empty($state['dealer']['drawLog'])): ?>
+          <div style="margin-top:1rem;padding:.75rem;background:rgba(0,0,0,0.1);border-radius:6px">
+            <h3 style="margin:0 0 .5rem;font-size:.85rem;color:var(--bj-muted)">Korthistorik:</h3>
+            <ul style="margin:0;padding-left:1.2rem;font-size:.85rem;line-height:1.6">
+              <?php foreach ($state['dealer']['drawLog'] as $idx => $log): ?>
+                <li><strong>Kort <?= $idx + 1 ?>:</strong> <?= htmlspecialchars($log[1]) ?> <em style="color:var(--bj-muted)">(<?= htmlspecialchars($log[0]) ?>)</em></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
       </article>
 
       <div class="hands-grid">
@@ -224,10 +259,53 @@ if (isset($baseVar)) {
                       $msg = "Förlust ({$net})";
                       $cls = 'lose';
                   }
+                  
+                  // Get dealer info for comparison
+                  $dealerScore = (int)$state['dealer']['score'];
+                  $dealerCards = $state['dealer']['cards'];
+                  $playerScore = (int)$h['score'];
                 ?>
                 <p class="result-line">
                   Resultat: <span class="result <?= $cls ?>"><?= $msg ?></span>
                 </p>
+                
+                <div style="margin-top:.75rem;padding:.6rem;background:rgba(0,0,0,0.05);border-radius:4px;font-size:.85rem">
+                  <div style="margin-bottom:.3rem">
+                    <strong>Din hand:</strong> <?= $playerScore ?> poäng
+                    <?php if ($h['bust']): ?>
+                      <span style="color:#ef4444;font-weight:bold"> (BUST)</span>
+                    <?php elseif ($h['bj']): ?>
+                      <span style="color:#f59e0b;font-weight:bold"> (BLACKJACK)</span>
+                    <?php endif; ?>
+                  </div>
+                  <div style="margin-bottom:.3rem">
+                    <strong>Bankens hand:</strong> <?= $dealerScore ?> poäng
+                    <?php if ($dealerScore > 21): ?>
+                      <span style="color:#ef4444;font-weight:bold"> (BUST)</span>
+                    <?php endif; ?>
+                  </div>
+                  <div style="color:var(--bj-muted);font-size:.8rem">
+                    Bankens kort: <?= implode(', ', array_map('htmlspecialchars', $dealerCards)) ?>
+                  </div>
+                  
+                  <?php if (!$h['bust']): ?>
+                    <div style="margin-top:.4rem;padding-top:.4rem;border-top:1px solid rgba(0,0,0,0.1)">
+                      <?php if ($dealerScore > 21): ?>
+                        <em>Banken fick bust - du vinner!</em>
+                      <?php elseif ($playerScore > $dealerScore): ?>
+                        <em>Du hade högre än banken (<?= $playerScore ?> > <?= $dealerScore ?>)</em>
+                      <?php elseif ($playerScore === $dealerScore): ?>
+                        <em>Samma poäng som banken (<?= $playerScore ?> = <?= $dealerScore ?>)</em>
+                      <?php else: ?>
+                        <em>Banken hade högre (<?= $dealerScore ?> > <?= $playerScore ?>)</em>
+                      <?php endif; ?>
+                    </div>
+                  <?php else: ?>
+                    <div style="margin-top:.4rem;padding-top:.4rem;border-top:1px solid rgba(0,0,0,0.1)">
+                      <em>Du fick bust över 21 - automatisk förlust</em>
+                    </div>
+                  <?php endif; ?>
+                </div>
               <?php elseif ($state['current'] === $i): ?>
                 <form method="post" action="<?= htmlspecialchars($route ?? '/blackjack') ?>" class="actions-form">
                   <button class="btn" type="submit" name="action" value="hit">Ta kort</button>

@@ -1,48 +1,37 @@
+{# filepath: \\wsl.localhost\Ubuntu\home\hani_awa\dbwebb-kurser\mvc\me\report\templates\base.html.twig #}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}MVC Course{% endblock %}</title>
-        <link rel="stylesheet" href="/~maix24/dbwebb-kurser/mvc/me/report/public/css/style.css">
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <h1>MVC Course Report</h1>
-            </div>
-        </header>
-        
-        <nav>
-            <div class="container">
-                <ul>
-                    <li><a href="{{ path('home') }}">Home</a></li>
-                    <li><a href="{{ path('about') }}">About</a></li>
-                    <li><a href="{{ path('report') }}">Report</a></li>
-                    <li><a href="{{ path('card_index') }}">Card Game</a></li>
-                    <li><a href="{{ path('game_landing') }}">Game 21</a></li>
-                    <li><a href="{{ path('lucky') }}">Lucky Number</a></li>
-                    <li><a href="{{ path('library_index') }}">Library</a></li>
-                    <li><a href="/~maix24/dbwebb-kurser/mvc/me/report/public/api">API</a></li>
-                    <li><a href="{{ path('metrics') }}">Metrics</a></li>
-                    <li><a href="{{ path('blackjack') }}">Black Jack</a></li>
-                </ul>
-            </div>
-        </nav>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ path('home') }}">Home</a></li>
+            <li><a href="{{ path('about') }}">About</a></li>
+            <li><a href="{{ path('report') }}">Report</a></li>
+            <li><a href="{{ path('lucky') }}">Lucky</a></li>
+            <li><a href="{{ path('card_index') }}">Card Game</a></li>
+            <li><a href="{{ path('game_landing') }}">Game 21</a></li>
+            <li><a href="{{ path('proj_index') }}">Blackjack</a></li>
+            <li><a href="{{ path('library_index') }}">Library</a></li>
+            <li><a href="{{ path('metrics') }}">Metrics</a></li>
+            <li><a href="{{ path('api_index') }}">API</a></li>
+        </ul>
+    </nav>
 
-        <main>
-            <div class="container">
-                {% block body %}{% endblock %}
-            </div>
-        </main>
+    <main class="container">
+        {% block body %}{% endblock %}
+    </main>
 
-        <footer>
-            <div class="container">
-                <p>MVC Course @ BTH | <a href="https://github.com/Haniawatah/mvc-me-report">GitHub Repository</a></p>
-            </div>
-        </footer>
+    <footer>
+        <p>&copy; {{ "now"|date("Y") }} MVC Report</p>
+    </footer>
 
-        {% block javascripts %}{% endblock %}
-    </body>
+    {% block javascripts %}{% endblock %}
+</body>
 </html>

@@ -1,0 +1,155 @@
+/* Black Jack Project Stylesheet - Distinct from report site */
+
+:root {
+    --proj-primary: #1a5f3d;      /* Dark green (casino felt) */
+    --proj-secondary: #c41e3a;    /* Casino red */
+    --proj-gold: #ffd700;         /* Gold accents */
+    --proj-dark: #0d1b0e;         /* Very dark green */
+    --proj-light: #f5f5f0;        /* Off-white */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;  /* Different from report */
+    background: linear-gradient(135deg, var(--proj-dark) 0%, var(--proj-primary) 100%);
+    color: var(--proj-light);
+    min-height: 100vh;
+}
+
+/* Project-specific header */
+.proj-header {
+    background: linear-gradient(to right, var(--proj-dark), var(--proj-primary));
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    border-bottom: 3px solid var(--proj-gold);
+}
+
+.proj-nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.proj-logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--proj-gold);
+    text-decoration: none;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.proj-nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.proj-nav a {
+    color: var(--proj-light);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.proj-nav a:hover {
+    color: var(--proj-gold);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+/* Main content area */
+.proj-container {
+    max-width: 1000px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #333;
+}
+
+/* Cards styling */
+.card-display {
+    background: var(--proj-primary);
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+    border: 2px solid var(--proj-gold);
+}
+
+/* Buttons */
+.proj-btn {
+    background: var(--proj-secondary);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.proj-btn:hover {
+    background: #a01828;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.4);
+}
+
+.proj-btn-secondary {
+    background: var(--proj-dark);
+    color: var(--proj-gold);
+}
+
+.proj-btn-secondary:hover {
+    background: #1a2c1b;
+}
+
+/* Footer */
+.proj-footer {
+    background: var(--proj-dark);
+    color: var(--proj-light);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 4rem;
+    border-top: 3px solid var(--proj-gold);
+}
+
+/* Table styling for game */
+.game-table {
+    background: var(--proj-primary);
+    border-radius: 200px;
+    padding: 3rem;
+    margin: 2rem 0;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+    border: 5px solid var(--proj-dark);
+}
+
+.flash-success {
+    background: #28a745;
+    color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.flash-error {
+    background: #dc3545;
+    color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+    text-align: center;
+}

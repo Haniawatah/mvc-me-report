@@ -2,30 +2,28 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Controller for project mini-site under /proj.
- */
-class ProjController
+class ProjController extends AbstractController
 {
     #[Route('/proj', name: 'proj_index')]
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        ob_start();
-        $baseVar = $request->getBasePath(); // e.g. /~maix24/dbwebb-kurser/mvc/me/report/public
-        include __DIR__ . '/../../proj/index.php';
-        return new Response(ob_get_clean());
+        return $this->render('proj/index.html.twig');
     }
 
     #[Route('/proj/about', name: 'proj_about')]
-    public function about(Request $request): Response
+    public function about(): Response
     {
-        ob_start();
-        $baseVar = $request->getBasePath();
-        include __DIR__ . '/../../proj/about.php';
-        return new Response(ob_get_clean());
+        return $this->render('proj/about.html.twig');
+    }
+
+    #[Route('/proj/play', name: 'proj_play')]
+    public function play(): Response
+    {
+        // Länka till ditt Blackjack-spel
+        return $this->redirectToRoute('blackjack');
     }
 }
