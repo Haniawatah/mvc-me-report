@@ -47,7 +47,7 @@ mvc-me-report/
     └── coverage/           # Test coverage HTML report
 ```
 
-## 🧪 Testing
+##  Testing
 
 ```bash
 # Run all tests
@@ -62,7 +62,7 @@ open docs/coverage/index.html
 
 **Current Coverage: 91.39%** (84 tests, 224 assertions)
 
-## 📚 Documentation
+##  Documentation
 
 - **API Documentation:** [docs/api/](docs/api/) - Generated with PhpDoc
 - **Code Metrics:** [docs/metrics/](docs/metrics/) - Generated with PhpMetrics
@@ -81,7 +81,7 @@ composer phpmetrics
 XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html docs/coverage
 ```
 
-## 🛠️ Code Quality Tools
+##  Code Quality Tools
 
 ```bash
 # PHP CS Fixer
@@ -94,7 +94,7 @@ composer phpstan
 composer phpmd
 ```
 
-## 🏗️ Technical Implementation
+##  Technical Implementation
 
 ### Object-Oriented Design
 
