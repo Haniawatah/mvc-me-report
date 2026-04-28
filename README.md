@@ -138,4 +138,4 @@ This project is created for educational purposes as part of the MVC course at BT
 
 ## 👤 Author
 
-Created by a BTH student for the MVC course final project.
+Created by a BTH student for the MVC course final project Hani Awatah
